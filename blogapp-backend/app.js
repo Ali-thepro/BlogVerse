@@ -36,5 +36,6 @@ app.use('/api/auth', authRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
+app.use(middleware.customErrorHandler)
 
 module.exports = app;
