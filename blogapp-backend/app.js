@@ -7,6 +7,8 @@ const morgan = require('morgan');
 const config = require('./utils/config');
 const logger = require('./utils/logger');
 const middleware = require('./utils/middleware');
+const userRouter = require('./routes/userRouter.js')
+const authRouter = require('./routes/authRouter.js')
 
 mongoose.set('strictQuery', false)
 
@@ -24,10 +26,15 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-app.get('/', (request, response) => { 
-  response.send('<h1>Hello World!</h1>')
+app.get('/', (request, response) => {
+  response.send('Hello World!')
 })
 
+app.use('/api/user', userRouter)
+app.use('/api/auth', authRouter)
+
+
 app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
 
 module.exports = app;

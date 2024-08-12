@@ -6,13 +6,23 @@ const userSchema = new mongoose.Schema(
       type: String,
       unique: true,
       required: true,
-      minlength: [3, 'username must be at least 3 characters long']
+      minlength: [7, 'username must be at least 7 characters long'],
+      maxlength: [20, 'username must not be more than 20 characters'],
+      validate: [
+        {
+          validator: function (v) {
+            return /^[a-zA-Z0-9]+$/.test(v);
+          },
+          message: (props) => {
+            return 'username can only contain letters and numbers'; 
+          }
+        }
+      ]
     },
     email: {
       type: String,
       unique: true,
       required: true,
-      minlength: [5, 'email must be at least 5 characters long']
     },
     passwordHash: {
       type: String,
@@ -21,7 +31,6 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 )
-
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
