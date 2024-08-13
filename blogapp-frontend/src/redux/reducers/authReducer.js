@@ -1,47 +1,46 @@
-// import { createSlice } from '@reduxjs/toolkit'
-// import { setNotification } from './notificationReducer'
+import { createSlice } from '@reduxjs/toolkit'
+import { setNotification } from './notificationReducer'
+import { signin } from '../../services/auth'
 
-// const state = () => {
-//   const user = storage.loadUser()
-//   if (user) {
-//     return { user, isLoggedIn: true }
-//   }
-//   return { user: null, isLoggedIn: false } 
-// }
+const state = () => {
+  return ({
+    user: null,
+    loading: false,
+  })
+}
 
-// const authSlice = createSlice({
-//   name: 'auth',
-//   initialState: state(),
-//   reducers: {
-//     setUser(state, action) {
-//       return { user: action.payload, isLoggedIn: true }
-//     },
-//     clearUser(state) {
-//       return { user: null, isLoggedIn: false }
-//     }
-//   }
-// })
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: state(),
+  reducers: {
+    setUser(state, action) {
+      return { user: action.payload, loading: false }
+    },
+    signInInitial(state, action) {
+      return { ...state, loading: true }
+    },
+    signInError(state, action) {
+      return { ...state,  loading: false }
+    }
+  }
+})
 
-// export const login = (credentials) => { 
-//   return async dispatch => {
-//     try {
-//       const user = await loginService.login(credentials)
-//       storage.saveUser(user)
-//       dispatch(setUser(user))
-//       dispatch(setNotification('Logged in', 5, 'success'))
-//     } catch (error) {
-//       dispatch(setNotification(error.response.data.error, 5, 'error'))
-//     }
-//   }
-// }
+export const login = (credentials) => { 
+  return async dispatch => {
+    dispatch(signInInitial())
+    try {
+      const user = await signin(credentials)
+      dispatch(setUser(user))
+      // dispatch(setNotification('Logged in', 'success'))
+      return true
+    } catch (error) {
+      dispatch(setNotification(error.response.data.error, 'failure'))
+      dispatch(signInError())
+      return false
+    }
+  }
+}
 
-// export const logout = () => { 
-//   return async dispatch => {
-//     storage.removeItem()
-//     dispatch(clearUser())
-//     dispatch(setNotification('Logged out', 5, 'success'))
-//   }
-// }
 
-// export const { setUser, clearUser } = authSlice.actions
-// export default authSlice.reducer
+export const { setUser, signInInitial, signInError } = authSlice.actions
+export default authSlice.reducer

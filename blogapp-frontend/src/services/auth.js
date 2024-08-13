@@ -8,7 +8,7 @@ export const signup = async (credentials) => {
 
 export const signin = async (credentials) => {
   const response = await axios.post(`${BASE_URL}/signin`, credentials);
-  return response
+  return response.data
 };
 
 

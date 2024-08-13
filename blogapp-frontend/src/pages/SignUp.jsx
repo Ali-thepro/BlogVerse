@@ -26,6 +26,7 @@ const SignUp = () => {
         setLoading(false);
         navigate('/signin');
       }
+      setFormData({ username: '', email: '', password: '' });
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'));
       setLoading(false);
@@ -91,7 +92,7 @@ const SignUp = () => {
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Already have an account?</span>
-            <Link to="/login" className="text-blue-500">
+            <Link to="/signin" className="text-blue-500">
               Sign in
             </Link>
           </div>
