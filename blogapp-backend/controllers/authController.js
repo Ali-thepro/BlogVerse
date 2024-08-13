@@ -44,6 +44,34 @@ const signup = async (request, response, next) => {
   response.status(201).json(savedUser);
 };
 
+const signin = async (request, response, next) => { 
+  const { email, password } = request.body;
+
+  const user = await User.findOne({ email });
+  const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash);
+
+  if (!(user && passwordCorrect)) {
+    return next(createError("Invalid email or password", 401));
+  }
+
+  const userForToken = {
+    email: user.email,
+    id: user._id,
+    isAdmin: user.isAdmin,
+  };
+
+  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 60 * 60 });
+
+  response
+    .status(200)
+    .cookie('token', token, {
+      httpOnly: true,
+    })
+    .json(user);
+}
+
+
 module.exports = {
   signup,
+  signin,
 };
