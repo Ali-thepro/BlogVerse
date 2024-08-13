@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { setNotification } from './notificationReducer'
-import { signin } from '../../services/auth'
+import { signin, google } from '../../services/auth'
 
 const state = () => {
   return ({
@@ -36,6 +36,20 @@ export const login = (credentials) => {
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
       dispatch(signInError())
+      return false
+    }
+  }
+}
+
+export const googleLogin = (credentials) => { 
+  return async dispatch => {
+    dispatch(signInInitial())
+    try {
+      const user = await google(credentials)
+      dispatch(setUser(user))
+      return true
+    } catch (error) {
+      console.log(error)
       return false
     }
   }

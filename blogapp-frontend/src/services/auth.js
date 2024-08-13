@@ -11,4 +11,8 @@ export const signin = async (credentials) => {
   return response.data
 };
 
-
+export const google = async (credentials) => { 
+  const response = await axios.post(`${BASE_URL}/google`, credentials);
+  console.log(response.data)
+  return response.data
+}
