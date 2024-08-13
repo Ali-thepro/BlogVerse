@@ -29,7 +29,7 @@ const Header = () => {
           <FaMoon />
         </Button>
         <Link to="/signin">
-          <Button className="focus:ring-0" gradientDuoTone='purpleToBlue' outline>
+          <Button className="focus:ring-0 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-lg" outline>
             Sign In
           </Button>
         </Link>
