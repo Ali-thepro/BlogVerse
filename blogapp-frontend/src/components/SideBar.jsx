@@ -2,9 +2,12 @@ import { Sidebar as SidebarDiv } from 'flowbite-react'
 import { HiArrowSmRight, HiUser } from 'react-icons/hi'
 import { useLocation, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { signOutUser } from '../redux/reducers/authReducer'
 
 const Sidebar = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const [tab, setTab] = useState('');
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -26,7 +29,11 @@ const Sidebar = () => {
           >
             Profile
           </SidebarDiv.Item>
-          <SidebarDiv.Item icon={HiArrowSmRight} className='cursor-pointer'>
+          <SidebarDiv.Item 
+            icon={HiArrowSmRight}
+            className='cursor-pointer'
+            onClick={() => dispatch(signOutUser())}
+          >
             Sign out
           </SidebarDiv.Item>
         </SidebarDiv.ItemGroup>
