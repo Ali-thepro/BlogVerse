@@ -45,9 +45,8 @@ const Header = () => {
             label={
               <Avatar 
                 alt="user"
-                img={user.profilePicture}
+                img={(props) => <img src={user.profilePicture} referrerPolicy="no-referrer"  {...props} />}
                 rounded
-                referrerPolicy="no-referrer"
               />
             }
           >
@@ -76,15 +75,11 @@ const Header = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active={path === '/'} as={'div'}>
-          <Link to='/'>
+        <Navbar.Link active={path === '/'} as={Link} to='/'>
             Home
-          </Link>
         </Navbar.Link>
-        <Navbar.Link active={path === '/about'} as={'div'}>
-          <Link to='/about'>
+        <Navbar.Link active={path === '/about'} as={Link} to='/about'>
             About
-          </Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
