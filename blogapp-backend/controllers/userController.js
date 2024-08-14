@@ -10,7 +10,7 @@ const update = async (request, response, next) => {
   const { id } = request.params
   // console.log(request.user._id.toString())
   if (request.user._id.toString() !== id) {
-    return next(createError('You are not allowed to updated this user', 401))
+    return next(createError('You are not allowed to updated this user', 403))
   }
 
   if (request.body.password) {
@@ -51,7 +51,25 @@ const update = async (request, response, next) => {
   response.json(updatedUser);
 }
 
+const deleteUser = async (request, response, next) => {
+  const { id } = request.params
+  if (request.user._id.toString() !== id) {
+    return next(createError('You are not allowed to delete this user', 401))
+  }
+  await User.findByIdAndDelete(id)
+  response.status(204).send('User deleted successfully')
+}
+
+const signOut = async (request, response) => { 
+  response
+    .clearCookie('token')
+    .status(200)
+    .send('User signed out successfully')
+}
+
 module.exports = {
   test,
-  update
+  update,
+  deleteUser,
+  signOut
 } 

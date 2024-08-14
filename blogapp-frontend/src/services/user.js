@@ -6,3 +6,12 @@ export const update = async (credentials) => {
   return response.data;
 };
 
+export const deleteUserFromDB = async (id) => { 
+  const response = await axios.delete(`${BASE_URL}/delete/${id}`);
+  return response.data;
+}
+
+export const signOutUserFromDB = async () => {
+  const response = await axios.post(`${BASE_URL}/signout`);
+  return response.data;
+};

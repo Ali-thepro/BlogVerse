@@ -1,4 +1,4 @@
-import { TextInput, Button } from "flowbite-react";
+import { TextInput, Button, Modal } from "flowbite-react";
 import { useState, useRef, useEffect } from "react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app }  from "../firebase";
@@ -7,7 +7,8 @@ import Notification  from "./Notifcation"
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
-import { updateUserDetails } from "../redux/reducers/authReducer";
+import { updateUserDetails, deleteUserDetails, signOutUser } from "../redux/reducers/authReducer";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Profile = () => {
   const [image, setImage] = useState(null)
@@ -15,6 +16,7 @@ const Profile = () => {
   const [imageUploadProgress, setImageUploadProgress] = useState(0)
   const [imageUploadLoading, setImageUploadLoading] = useState(false)
   const [formData, setFormData] = useState({})
+  const [showModal, setShowModal] = useState(false)
   const filePickerRef = useRef()
   const dispatch = useDispatch()
   const { user, loading } = useSelector(state => state.auth)
@@ -80,6 +82,11 @@ const Profile = () => {
     dispatch(updateUserDetails({ ...formData, id: user.id }))
   }
 
+  const handleDelete = async () => {
+    setShowModal(false)
+    dispatch(deleteUserDetails(user.id))
+  }
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -141,10 +148,46 @@ const Profile = () => {
         </Button>
       </form>
       <div className="text-red-500 flex justify-between mt-5">
-        <span className="cursor-pointer">Delete Account</span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={() => setShowModal(true)} className="cursor-pointer">Delete Account</span>
+        <span 
+          onClick={() => dispatch(signOutUser())}
+          className="cursor-pointer"
+        >
+          Sign Out
+        </span>
       </div>
       <Notification />
+
+      <Modal 
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size='md'
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="text-red-500 text-5xl mb-4 mx-auto h-14 w-14"/>
+            <h3 className="mb-5 text-lg text-gray 500 dark:text-gray-400">
+              Are you sure you want to delete your account?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button 
+                color="failure"
+                onClick={handleDelete}
+              >
+                Yes, I'm sure
+              </Button>
+              <Button 
+                color="gray"
+                onClick={() => setShowModal(false)}
+              >
+                No, Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

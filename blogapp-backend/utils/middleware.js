@@ -20,7 +20,7 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === 'JsonWebTokenError') {
     return response.status(401).json({ error: 'token missing or invalid' })
   } else if (error.name === 'TokenExpiredError') {
-    return response.status(401).json({ error: 'token expired' })
+    return response.status(401).json({ error: 'token expired - please re-authenticate' })
   }
 
   next(error)
@@ -60,7 +60,7 @@ const verifyUser = async (request, response, next) => {
   }
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!decodedToken.id) {
-    return next(createError('Unauthorised', 401))
+    return next(createError('token expired - please re-authenticate', 401))
   }
   const user = await User.findById(decodedToken.id)
   if (!user) {
