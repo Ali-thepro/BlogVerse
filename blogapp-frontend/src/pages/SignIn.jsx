@@ -9,7 +9,6 @@ import OAuth from "../components/OAuth";
 const SignIn = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const loading = useSelector(state => state.auth.loading);
-  const ok = useSelector(state => state.auth.ok);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,11 +26,6 @@ const SignIn = () => {
 
   }
 
-  // useEffect(() => {
-  //   if (ok) {
-  //     navigate('/');
-  //   }
-  // }, [ok])
 
   return (
     <div className="min-h-screen mt-20">

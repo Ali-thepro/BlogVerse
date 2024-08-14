@@ -79,6 +79,15 @@ const SignUp = () => {
                 onChange={handleChange}
               />
             </div>
+            <div className="">
+              <Label>Confirm password</Label>
+              <TextInput 
+                type="password" 
+                placeholder="Confirm password" 
+                name="confirmPassword"
+                onChange={handleChange}
+              />
+            </div>
             <Button
               type="submit"
               className="focus:ring-0 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-lg" outline disabled={loading}>

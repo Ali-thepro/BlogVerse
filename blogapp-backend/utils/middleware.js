@@ -1,3 +1,7 @@
+const jwt = require('jsonwebtoken')
+const createError = require('./error')
+const User = require('../models/user')
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
@@ -32,8 +36,43 @@ const customErrorHandler = (error, request, response, next) => {
   next(error)
 }
 
+const verifyUser = async (request, response, next) => {
+  // const authorization = request.get('authorization')
+  // if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+  //   const token = authorization.replace('bearer ', '')
+  //   const decodedToken = jwt.verify(token, process.env.SECRET)
+  //   if (!decodedToken.id) {
+  //     return response.status(401).json({ error: 'token invalid' })
+  //   }
+  //   const user = await User.findById(decodedToken.id)
+  //   if (!user) {
+  //     return response.status(401).json({ error: 'user not found' })
+  //   }
+  //   request.user = user
+  //   next()
+  // } else {
+  //   return response.status(401).json({ error: 'token missing' })
+  // }
+
+  const token = request.cookies.token
+  if (!token) {
+    return next(createError('Unauthorised', 401))
+  }
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return next(createError('Unauthorised', 401))
+  }
+  const user = await User.findById(decodedToken.id)
+  if (!user) {
+    return next(createError('Unauthorised', 401))
+  }
+  request.user = user
+  next()
+}
+
 module.exports = {
   unknownEndpoint,
   errorHandler,
-  customErrorHandler
+  customErrorHandler,
+  verifyUser
 }

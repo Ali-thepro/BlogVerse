@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { setNotification } from './notificationReducer'
 import { signin, google } from '../../services/auth'
+import { update } from '../../services/user'
 
 const state = () => {
   return ({
@@ -21,7 +22,17 @@ const authSlice = createSlice({
     },
     signInError(state, action) {
       return { ...state,  loading: false }
+    },
+    updateInitial(state, action) { 
+      return { ...state, loading: true }
+    },
+    updateUser(state, action) { 
+      return { user: action.payload, loading: false }
+    },
+    updateError(state, action) { 
+      return { ...state, loading: false }
     }
+
   }
 })
 
@@ -55,6 +66,20 @@ export const googleLogin = (credentials) => {
   }
 }
 
+export const updateUserDetails = (credentials) => { 
+  return async dispatch => {
+    dispatch(updateInitial())
+    try {
+      const user = await update(credentials)
+      dispatch(updateUser(user))
+      dispatch(setNotification('User"s profile updated sucessfully', 'success'))
+    } catch (error) {
+      dispatch(setNotification(error.response.data.error, 'failure'))
+      dispatch(updateError())
+    }
+  }
+}
 
-export const { setUser, signInInitial, signInError } = authSlice.actions
+
+export const { setUser, signInInitial, signInError, updateInitial, updateUser, updateError } = authSlice.actions
 export default authSlice.reducer

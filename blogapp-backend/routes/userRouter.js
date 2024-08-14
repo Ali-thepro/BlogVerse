@@ -1,6 +1,8 @@
-const userRouter = require('express').Router()
-const { test } = require('../controllers/userController')
+const userRouter = require('express').Router();
+const { test, update } = require('../controllers/userController');
+const middleware = require('../utils/middleware');
 
-userRouter.get('/test', test)
+userRouter.get('/test', test);
+userRouter.put('/update/:id', middleware.verifyUser, update);
 
-module.exports = userRouter
+module.exports = userRouter;

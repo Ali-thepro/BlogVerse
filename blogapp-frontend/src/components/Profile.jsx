@@ -1,22 +1,23 @@
-import { useSelector } from "react-redux";
 import { TextInput, Button } from "flowbite-react";
 import { useState, useRef, useEffect } from "react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app }  from "../firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Notification  from "./Notifcation"
-import { setNotification } from "../redux/reducers/notificationReducer";
+import { setNotification, hide } from "../redux/reducers/notificationReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
+import { updateUserDetails } from "../redux/reducers/authReducer";
 
 const Profile = () => {
   const [image, setImage] = useState(null)
   const [imageUrl, setImageUrl] = useState(null)
   const [imageUploadProgress, setImageUploadProgress] = useState(0)
   const [imageUploadLoading, setImageUploadLoading] = useState(false)
+  const [formData, setFormData] = useState({})
   const filePickerRef = useRef()
   const dispatch = useDispatch()
-  const user = useSelector(state => state.auth.user)
+  const { user, loading } = useSelector(state => state.auth)
 
   const handleImageChange = (event) => {
     const file = event.target.files[0]
@@ -24,7 +25,6 @@ const Profile = () => {
       setImage(file)
       setImageUrl(URL.createObjectURL(file))
     }
-
   }
 
   useEffect(() => {
@@ -34,6 +34,8 @@ const Profile = () => {
   }, [image])
 
   const uploadImage = async () => {
+    dispatch(hide())
+    setImageUploadLoading(true)
     const storage = getStorage(app)
     const filename = new Date().getTime() + image.name
     const storageRef = ref(storage, filename)
@@ -54,16 +56,34 @@ const Profile = () => {
         getDownloadURL(uploadtask.snapshot.ref).then((downloadURL) => {
           setImageUrl(downloadURL)
           setImageUploadLoading(false)
+          setFormData({ ...formData, profilePicture: downloadURL })
         });
       }
     )
   }
 
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value.trim() });
+    console.log(formData)
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    if (imageUploadLoading) {
+      dispatch(setNotification('Image is still uploading', 'failure'))
+      return
+    }
+    if (Object.keys(formData).length === 0) {
+      dispatch(setNotification('No changes made', 'failure'))
+      return
+    }
+    dispatch(updateUserDetails({ ...formData, id: user.id }))
+  }
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input type="file" accept="image/*" onChange={handleImageChange} ref={filePickerRef} className="hidden"/>
         <div onClick={() => filePickerRef.current.click()} className="relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full">
 
@@ -96,20 +116,28 @@ const Profile = () => {
           placeholder="Username" 
           defaultValue={user.username}
           name="username"
+          onChange={handleChange}
         />
         <TextInput 
           type="email" 
           placeholder="email" 
           defaultValue={user.email}
           name="email"
+          onChange={handleChange}
         />
         <TextInput 
           type="password" 
           placeholder="password" 
           name="password"
+          onChange={handleChange}
         />
-        <Button type="submit" className="bg-gradient-to-r from-blue-500 via-purple-500 to-red-500" outline>
-          Update
+        <Button 
+          type="submit" 
+          className="focus:ring-0 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500" 
+          outline
+          disabled={loading || imageUploadLoading}
+        >
+          {loading ? 'Loading...' : 'Update'}
         </Button>
       </form>
       <div className="text-red-500 flex justify-between mt-5">

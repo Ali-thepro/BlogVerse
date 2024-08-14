@@ -4,17 +4,23 @@ const User = require("../models/user");
 const createError = require("../utils/error");
 
 const signup = async (request, response, next) => {
-  const { username, email, password } = request.body;
+  const { username, email, password, confirmPassword } = request.body;
 
   if (
     !username ||
     !email ||
     !password ||
+    !confirmPassword ||
     username === "" ||
     email === "" ||
-    password === ""
+    password === "" ||
+    confirmPassword === ""
   ) {
     return next(createError("All fields are required", 400));
+  }
+
+  if (password !== confirmPassword) {
+    return next(createError("Passwords do not match", 400));
   }
 
   if (
