@@ -43,7 +43,6 @@ export const login = (credentials) => {
     try {
       const user = await signin(credentials)
       dispatch(setUser(user))
-      // dispatch(setNotification('Logged in', 'success'))
       toast.success('Logged in')
       return true
     } catch (error) {
@@ -90,7 +89,6 @@ export const deleteUserDetails = (id) => {
     try {
       await deleteUserFromDB(id)
       dispatch(deleteUser())
-      // dispatch(setNotification('User deleted sucessfully', 'success'))
       toast.success('User deleted sucessfully')
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
@@ -105,7 +103,6 @@ export const signOutUser = () => {
     try {
       await signOutUserFromDB()
       dispatch(signOut())
-      // dispatch(setNotification('User signed out sucessfully', 'success'))
       toast.success('User signed out sucessfully')
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))

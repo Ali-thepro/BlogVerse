@@ -1,5 +1,5 @@
 import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,12 +8,17 @@ import { signOutUser } from "../redux/reducers/authReducer";
 
 const Header = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector(state => state.auth.user)
   const path = useLocation().pathname
   const theme = useSelector(state => state.theme)
 
   const changeTheme = () => {
     dispatch(setTheme())
+  }
+  const handleSignOut = () => {
+    dispatch(signOutUser())
+    navigate('/')
   }
 
   return (
@@ -61,7 +66,7 @@ const Header = () => {
               </Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => dispatch(signOutUser())}>
+            <Dropdown.Item onClick={handleSignOut}>
               Sign out
             </Dropdown.Item>
 

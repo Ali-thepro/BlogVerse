@@ -1,6 +1,6 @@
 import { Sidebar as SidebarDiv } from 'flowbite-react'
 import { HiArrowSmRight, HiUser } from 'react-icons/hi'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signOutUser } from '../redux/reducers/authReducer'
@@ -8,6 +8,7 @@ import { signOutUser } from '../redux/reducers/authReducer'
 const Sidebar = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(state => state.auth.user);
   const [tab, setTab] = useState('');
   useEffect(() => {
@@ -17,6 +18,11 @@ const Sidebar = () => {
       setTab(tab);
     }
   }, [location.search]);
+
+  const handleSignOut = () => {
+    dispatch(signOutUser())
+    navigate('/')
+  }
   return (
     <SidebarDiv className='w-full md:w-56'>
       <SidebarDiv.Items>
@@ -33,7 +39,7 @@ const Sidebar = () => {
           <SidebarDiv.Item 
             icon={HiArrowSmRight}
             className='cursor-pointer'
-            onClick={() => dispatch(signOutUser())}
+            onClick={handleSignOut}
           >
             Sign out
           </SidebarDiv.Item>
