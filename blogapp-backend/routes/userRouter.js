@@ -5,6 +5,6 @@ const middleware = require('../utils/middleware');
 userRouter.get('/test', test);
 userRouter.put('/update/:id', middleware.verifyUser, update);
 userRouter.delete('/delete/:id', middleware.verifyUser, deleteUser);
-userRouter.post('/signout', middleware.verifyUser, signOut);
+userRouter.post('/signout', signOut);
 
 module.exports = userRouter;

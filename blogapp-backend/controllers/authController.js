@@ -73,11 +73,7 @@ const signin = async (request, response, next) => {
 
 const google = async (request, response, next) => {
   const { name, email, googlePhotoURL } = request.body;
-  
   const user = await User.findOne({ email });
-  
-  
-  
   if (user) {
     const token = jwt.sign({ email, id: user._id, isAdmin: user.isAdmin }, process.env.SECRET, { expiresIn: 60 * 60 });
     response

@@ -20,7 +20,7 @@ const authSlice = createSlice({
     initial(state, action) {
       return { ...state, loading: true }
     },
-    error(state, action) {
+    setError(state, action) {
       return { ...state,  loading: false }
     },
     updateUser(state, action) { 
@@ -46,7 +46,7 @@ export const login = (credentials) => {
       return true
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
-      dispatch(error())
+      dispatch(setError())
       return false
     }
   }
@@ -76,7 +76,7 @@ export const updateUserDetails = (credentials) => {
       dispatch(setNotification('User"s profile updated sucessfully', 'success'))
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
-      dispatch(error())
+      dispatch(setError())
     }
   }
 }
@@ -90,7 +90,7 @@ export const deleteUserDetails = (id) => {
       dispatch(setNotification('User deleted sucessfully', 'success'))
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
-      dispatch(error())
+      dispatch(setError())
     }
   }
 }
@@ -104,7 +104,7 @@ export const signOutUser = () => {
       dispatch(setNotification('User signed out sucessfully', 'success'))
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
-      dispatch(error())
+      dispatch(setError())
     }
   }
 }
@@ -112,5 +112,5 @@ export const signOutUser = () => {
 
 
 
-export const { setUser, initial, error, updateUser, deleteUser, signOut } = authSlice.actions
+export const { setUser, initial, setError, updateUser, deleteUser, signOut } = authSlice.actions
 export default authSlice.reducer
