@@ -1,14 +1,15 @@
-import { TextInput, Button, Modal } from "flowbite-react";
+import { TextInput, Button} from "flowbite-react";
 import { useState, useRef, useEffect } from "react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app }  from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Notification  from "./Notifcation"
+import ReusableModal from "./Modal";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import { updateUserDetails, deleteUserDetails, signOutUser } from "../redux/reducers/authReducer";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Profile = () => {
   const [image, setImage] = useState(null)
@@ -17,8 +18,10 @@ const Profile = () => {
   const [imageUploadLoading, setImageUploadLoading] = useState(false)
   const [formData, setFormData] = useState({})
   const [showModal, setShowModal] = useState(false)
+
   const filePickerRef = useRef()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { user, loading } = useSelector(state => state.auth)
 
   const handleImageChange = (event) => {
@@ -85,6 +88,12 @@ const Profile = () => {
   const handleDelete = async () => {
     setShowModal(false)
     dispatch(deleteUserDetails(user.id))
+    navigate('/')
+  }
+
+  const handleSignOut = () => {
+    dispatch(signOutUser())
+    navigate('/')
   }
 
   return (
@@ -150,7 +159,7 @@ const Profile = () => {
       <div className="text-red-500 flex justify-between mt-5">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">Delete Account</span>
         <span 
-          onClick={() => dispatch(signOutUser())}
+          onClick={handleSignOut}
           className="cursor-pointer"
         >
           Sign Out
@@ -158,36 +167,14 @@ const Profile = () => {
       </div>
       <Notification />
 
-      <Modal 
+      <ReusableModal
         show={showModal}
         onClose={() => setShowModal(false)}
-        popup
-        size='md'
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="text-red-500 text-5xl mb-4 mx-auto h-14 w-14"/>
-            <h3 className="mb-5 text-lg text-gray 500 dark:text-gray-400">
-              Are you sure you want to delete your account?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button 
-                color="failure"
-                onClick={handleDelete}
-              >
-                Yes, I'm sure
-              </Button>
-              <Button 
-                color="gray"
-                onClick={() => setShowModal(false)}
-              >
-                No, Cancel
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+        onConfirm={handleDelete}
+        title="Are you sure you want to delete your account?"
+        confirmText="Yes, I'm sure"
+        cancelText="No, Cancel"
+      />
     </div>
   )
 }
