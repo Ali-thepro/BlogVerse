@@ -24,6 +24,9 @@ const CategoryDropdown = () => {
   };
 
   const handleBlur = () => {
+    if (!filteredCategories.includes(categoryInput.toLowerCase())) {
+      dispatch(setCategoryInput(categoryInput));
+    }
     dispatch(setDropdownVisible(false));
   };
 
