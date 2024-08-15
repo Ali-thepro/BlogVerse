@@ -44,7 +44,7 @@ const CreatePost = () => {
         />
         <Button 
           type="submit"
-          className="focus:ring-0 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"
+          className="focus:ring-0 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 mb-5"
           outline
         >
           Publish
