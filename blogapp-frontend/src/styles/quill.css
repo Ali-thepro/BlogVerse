@@ -1,0 +1,37 @@
+/* quill-custom.css */
+.quill-dark .ql-container {
+  background-color: #1a202c;
+  color: #cbd5e0;
+}
+
+.quill-dark .ql-toolbar {
+  background-color: #2d3748;
+  border-color: #4a5568;
+}
+
+.quill-dark .ql-toolbar .ql-picker {
+  color: #cbd5e0;
+}
+
+.quill-dark .ql-toolbar .ql-stroke {
+  stroke: #cbd5e0;
+}
+
+.quill-dark .ql-toolbar .ql-fill {
+  fill: #cbd5e0;
+}
+
+.quill-dark .ql-toolbar .ql-picker-options {
+  background-color: #2d3748;
+  border-color: #4a5568;
+}
+
+.quill-dark .ql-toolbar .ql-picker-item {
+  color: #cbd5e0;
+}
+
+
+.quill-dark .ql-editor.ql-blank::before {
+  color: #a0aec0;
+  font-style: italic;
+}

@@ -4,8 +4,10 @@ import About from './pages/About';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
+import CreatePost from './pages/CreatePost';
 import Header from './components/Header';
 import FooterComponent from './components/FooterComponent';
+import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
@@ -37,6 +39,7 @@ export default function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/create-post" element={<CreatePost />} />
         </Route>
       </Routes>
       <FooterComponent />

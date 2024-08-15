@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app }  from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Notification  from "./Notifcation"
 import ReusableModal from "./Modal";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
@@ -153,8 +153,17 @@ const Profile = () => {
           outline
           disabled={loading || imageUploadLoading}
         >
-          {loading ? 'Loading...' : 'Update'}
+          {loading  ? 'Loading...' : 'Update'}
         </Button>
+        <Link to='/create-post'>
+          <Button
+            type="button"
+            className="focus:ring-0 w-full bg-gradient-to-r  from-red-500 via-purple-500 to-blue-500"
+            outline
+          >
+            Create a post
+          </Button>
+        </Link>
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">Delete Account</span>

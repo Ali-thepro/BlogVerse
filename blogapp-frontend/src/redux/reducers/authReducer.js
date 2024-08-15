@@ -62,6 +62,7 @@ export const googleLogin = (credentials) => {
       toast.success('Logged in')
       return true
     } catch (error) {
+      toast.error(error.response.data.error)
       dispatch(setNotification(error.response.data.error, 'failure'))
       dispatch(error())
       return false
