@@ -75,7 +75,7 @@ const google = async (request, response, next) => {
   const { name, email, googlePhotoURL } = request.body;
   const user = await User.findOne({ email });
   if (user) {
-    const token = jwt.sign({ email, id: user._id, isAdmin: user.isAdmin }, process.env.SECRET, { expiresIn: 60 * 60 });
+    const token = jwt.sign({ email, id: user._id, isAdmin: user.isAdmin }, process.env.SECRET, { expiresIn: 7200 }); // 2 hours
     response
       .status(200)
       .cookie('token', token, {
@@ -94,7 +94,7 @@ const google = async (request, response, next) => {
     });
     const savedUser = await newUser.save();
 
-    const token = jwt.sign({ email, id: savedUser._id, isAdmin: savedUser.isAdmin }, process.env.SECRET, { expiresIn: 60 * 60 });
+    const token = jwt.sign({ email, id: savedUser._id, isAdmin: savedUser.isAdmin }, process.env.SECRET, { expiresIn: 7200 }); // 2 hours
     response
       .status(201)
       .cookie('token', token, {

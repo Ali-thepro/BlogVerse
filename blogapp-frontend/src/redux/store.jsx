@@ -4,6 +4,7 @@ import notificationReducer from './reducers/notificationReducer';
 import authReducer from './reducers/authReducer';
 import themeReducer from './reducers/themeReducer';
 import storage from 'redux-persist/lib/storage';
+import expireReducer from 'redux-persist-expire';
 
 const rootReducer = combineReducers({
   notification: notificationReducer,
@@ -11,11 +12,19 @@ const rootReducer = combineReducers({
   theme: themeReducer
 });
 
+
 const persistConfig = {
   key: 'root',
   storage,
   version: 1,
-  blacklist: ['notification']
+  blacklist: ['notification'],
+  transforms: [
+    expireReducer('auth', {
+      expireSeconds: 7200,
+      expiredState: {},
+      autoExpire: true,
+    }),
+  ],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
