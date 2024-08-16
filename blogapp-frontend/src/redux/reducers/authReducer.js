@@ -91,9 +91,11 @@ export const deleteUserDetails = (id) => {
       await deleteUserFromDB(id)
       dispatch(deleteUser())
       toast.success('User deleted sucessfully')
+      return true
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
       dispatch(setError())
+      return false
     }
   }
 }
@@ -105,9 +107,11 @@ export const signOutUser = () => {
       await signOutUserFromDB()
       dispatch(signOut())
       toast.success('User signed out sucessfully')
+      return true
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
       dispatch(setError())
+      return false
     }
   }
 }

@@ -61,6 +61,7 @@ const Profile = () => {
         getDownloadURL(uploadtask.snapshot.ref).then((downloadURL) => {
           setImageUrl(downloadURL)
           setImageUploadLoading(false)
+          // setImageUploadProgress(0) // didnt add for image upload
           setFormData({ ...formData, profilePicture: downloadURL })
         });
       }
@@ -87,13 +88,17 @@ const Profile = () => {
 
   const handleDelete = async () => {
     setShowModal(false)
-    dispatch(deleteUserDetails(user.id))
-    navigate('/')
+    const success = await dispatch(deleteUserDetails(user.id))
+    if (success) {
+      navigate('/')
+    }
   }
 
-  const handleSignOut = () => {
-    dispatch(signOutUser())
-    navigate('/')
+  const handleSignOut =  async() => {
+    const success = await dispatch(signOutUser())
+    if (success) {
+      navigate('/')
+    }
   }
 
   return (
@@ -110,7 +115,7 @@ const Profile = () => {
               imageUploadProgress && imageUploadProgress < 100 && 'opacity-60'}`}
           />
           {imageUploadProgress && (
-            <CircularProgressbar value={imageUploadProgress || 0} text={`${imageUploadProgress}%`} 
+            <CircularProgressbar value={imageUploadProgress || 0} text={`${imageUploadProgress || 0}%`} 
               strokeWidth={5}
               styles={{
                 root:{

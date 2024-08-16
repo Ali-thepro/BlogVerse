@@ -9,7 +9,7 @@ const Notification = () => {
   }
 
   return (
-    <Alert color={notification.status} className="mt-5">
+    <Alert color={notification.status} className="mt-5 mb-5">
       {notification.message}
     </Alert>
   );

@@ -17,7 +17,7 @@ const OAuth = () => {
 
     try {
       const result = await signInWithPopup(auth, provider);
-      const success = dispatch(googleLogin({
+      const success = await dispatch(googleLogin({
         name: result.user.displayName,
         email: result.user.email,
         googlePhotoURL: result.user.photoURL,
