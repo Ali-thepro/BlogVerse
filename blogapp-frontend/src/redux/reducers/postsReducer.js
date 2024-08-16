@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPostInDB } from "../../services/post";
+import { createPostInDB, getPostsFromDB, getPostsByUserFromDB } from "../../services/post";
 import { setNotification } from "./notificationReducer";
 import { toast } from "react-toastify";
 
@@ -42,6 +42,34 @@ export const createNewPost = (post) => {
     }
   };
 };
+
+export const getPosts = () => {
+  return async (dispatch) => {
+    dispatch(initial());
+    try {
+      const posts = await getPostsFromDB();
+      dispatch(setPosts(posts));
+    } catch (error) {
+      dispatch(setNotification(error.response.data.error, "failure"));
+      dispatch(setError());
+    }
+  };
+};
+
+export const getPostsByUser = () => { 
+  return async (dispatch) => {
+    dispatch(initial());
+    try {
+      const posts = await getPostsByUserFromDB();
+      dispatch(setPosts(posts));
+    } catch (error) {
+      dispatch(setNotification(error.response.data.error, "failure"));
+      dispatch(setError());
+    }
+  };
+}
+
+
 
 export const { setPosts, createPost, initial, setError } = postsSlice.actions;
 export default postsSlice.reducer;

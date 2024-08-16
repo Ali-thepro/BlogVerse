@@ -1,5 +1,5 @@
 import { Sidebar as SidebarDiv } from 'flowbite-react'
-import { HiArrowSmRight, HiUser } from 'react-icons/hi'
+import { HiArrowSmRight, HiDocumentText, HiUser } from 'react-icons/hi'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <SidebarDiv className='w-full md:w-56'>
       <SidebarDiv.Items>
-        <SidebarDiv.ItemGroup>
+        <SidebarDiv.ItemGroup className='flex flex-col gap-1'>
           <SidebarDiv.Item 
             active={tab === 'profile'}
             icon={HiUser} label={user.isAdmin ? 'Admin' : 'User'}
@@ -35,6 +35,15 @@ const Sidebar = () => {
             to={'/dashboard?tab=profile'}
           >
             Profile
+          </SidebarDiv.Item>
+          <SidebarDiv.Item
+            active={tab === 'posts'}
+            icon={HiDocumentText} 
+            labelColor='dark'
+            as={Link}
+            to={'/dashboard?tab=posts'}
+          >
+            Posts
           </SidebarDiv.Item>
           <SidebarDiv.Item 
             icon={HiArrowSmRight}
