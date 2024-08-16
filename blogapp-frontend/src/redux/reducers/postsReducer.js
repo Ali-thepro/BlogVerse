@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createPostInDB } from "../../services/post";
+import { setNotification } from "./notificationReducer";
 import { toast } from "react-toastify";
 
 const initialState = {

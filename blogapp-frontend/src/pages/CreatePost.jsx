@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import CategoryDropdown from "../components/CategoryDropdown";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app }  from "../firebase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Notification from "../components/Notifcation";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
 import { createNewPost } from "../redux/reducers/postsReducer";
@@ -26,10 +26,16 @@ const CreatePost = () => {
   const theme = useSelector(state => state.theme);
   const loading = useSelector(state => state.posts.loading)
   let category = useSelector(state => state.category.categoryInput)
-  console.log(category)
+  const notification = useSelector(state => state.notification)
   if (category === '') {
     category = 'uncategorised'
   }
+
+  useEffect(() => {
+    if (notification) {
+      window.scrollTo(0, 0)
+    }
+  }, [notification])
 
   const handleUpload = async () => {
     dispatch(hide())
@@ -85,8 +91,7 @@ const CreatePost = () => {
 
     const result = await dispatch(createNewPost({ ...formData, category }))
     if (result.success) {
-      // navigate(`post/${result.slug}`)
-      console.log('post created')
+      navigate(`post/${result.slug}`)
     }
 
   }
