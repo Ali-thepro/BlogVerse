@@ -9,6 +9,7 @@ const logger = require('./utils/logger');
 const middleware = require('./utils/middleware');
 const userRouter = require('./routes/userRouter.js')
 const authRouter = require('./routes/authRouter.js')
+const postRouter = require('./routes/postRouter.js')
 const cookieParser = require('cookie-parser')
 
 mongoose.set('strictQuery', false)
@@ -32,6 +33,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/posts', postRouter)
 
 
 app.use(middleware.unknownEndpoint)

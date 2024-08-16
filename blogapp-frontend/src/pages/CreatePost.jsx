@@ -4,7 +4,7 @@ import { modules, formats } from "../utils/quill";
 import { useSelector } from "react-redux";
 import "react-quill/dist/quill.snow.css";
 import "../styles/quill.css";
-import CategoryDropdown from "./CategoryDropdown";
+import CategoryDropdown from "../components/CategoryDropdown";
 
 const CreatePost = () => {
   const theme = useSelector(state => state.theme);
