@@ -16,13 +16,10 @@ const create = async (request, response) => {
   const newPost = new Post({
     ...request.body,
     slug,
-    user: request.user._id
+    user: user._id
   })
   const savedPost = await newPost.save()
-  user.posts = user.posts.concat(savedPost._id)
-  await user.save()
-  const populatedPost = await savedPost.populate('user', { username: 1, email: 1, profilePicture: 1 })
-  response.status(201).json(populatedPost)
+  response.status(201).json(savedPost)
 }
 
 const getPosts = async (request, response) => {

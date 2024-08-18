@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Post = require('./post');
+const Comment = require('./comment');
 
 const userSchema = new mongoose.Schema(
   {
@@ -37,25 +39,35 @@ const userSchema = new mongoose.Schema(
       default:
         'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
     },
-    posts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post'
-      }
-    ],
   },
   { timestamps: true }
-)
+);
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-    delete returnedObject.passwordHash
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+    delete returnedObject.passwordHash;
   }
-})
+});
 
-const User = mongoose.model('User', userSchema)
+userSchema.pre('findOneAndDelete', async function(next) {
+  try {
+    const query = this.getQuery();
+    const userId = query._id;
+    const posts = await Post.find({ user: userId });
+    const postIds = posts.map(post => post._id);
 
-module.exports = User
+    await Post.deleteMany({ user: userId });
+    
+    await Comment.deleteMany({ post: { $in: postIds } });
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

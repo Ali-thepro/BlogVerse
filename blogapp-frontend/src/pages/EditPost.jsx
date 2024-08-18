@@ -48,6 +48,9 @@ const EditPost = () => {
     if (posts && posts.length > 0) {
       dispatch(setCategoryInput(posts[0].category));
     }
+    return () => {
+      dispatch(setCategoryInput(''));
+    };
   }, [posts, dispatch]);
 
   const handleUpload = async () => {

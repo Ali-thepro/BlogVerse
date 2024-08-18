@@ -9,6 +9,7 @@ import { app }  from "../firebase";
 import { useState, useEffect } from "react";
 import Notification from "../components/Notifcation";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
+import { setCategoryInput } from "../redux/reducers/categoryReducer";
 import { createNewPost } from "../redux/reducers/postsReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
@@ -27,6 +28,13 @@ const CreatePost = () => {
   const loading = useSelector(state => state.posts.loading)
   let category = useSelector(state => state.category.categoryInput)
   const notification = useSelector(state => state.notification)
+
+  useEffect(() => {
+    dispatch(setCategoryInput(''))
+    return () => {
+      dispatch(setCategoryInput(''))
+    }
+  }, [dispatch])
 
   useEffect(() => {
     if (notification) {

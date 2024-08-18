@@ -190,7 +190,7 @@ const Profile = () => {
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleDelete}
-        title="Are you sure you want to delete your account?"
+        title="Are you sure you want to delete your account? Everything associated with your account will be lost"
         confirmText="Yes, I'm sure"
         cancelText="No, Cancel"
       />
