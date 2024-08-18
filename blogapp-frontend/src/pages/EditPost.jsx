@@ -9,6 +9,7 @@ import { app } from "../firebase";
 import { useState, useEffect } from "react";
 import Notification from "../components/Notifcation";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
+import { setCategoryInput } from "../redux/reducers/categoryReducer";
 import { editPost, getPosts } from "../redux/reducers/postsReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
@@ -42,6 +43,12 @@ const EditPost = () => {
     };
     fetchPosts();
   }, [dispatch, postId]);
+  
+  useEffect(() => {
+    if (posts && posts.length > 0) {
+      dispatch(setCategoryInput(posts[0].category));
+    }
+  }, [posts, dispatch]);
 
   const handleUpload = async () => {
     dispatch(hide());
@@ -122,7 +129,7 @@ const EditPost = () => {
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 value={formData.title || posts[0].title}
               />
-              <CategoryDropdown value={posts[0].category} />
+              <CategoryDropdown />
             </div>
             <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
               <FileInput

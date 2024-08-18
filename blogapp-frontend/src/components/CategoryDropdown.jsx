@@ -5,13 +5,11 @@ import { useEffect } from "react";
 import { getPosts } from "../redux/reducers/postsReducer";
 import { fetchCategories } from "../redux/reducers/categoryReducer";
 
-const CategoryDropdown = ({ value = '' }) => {
+const CategoryDropdown = () => {
   const dispatch = useDispatch();
   const { categories, categoryInput, filteredCategories, dropdownVisible } = useSelector(state => state.category);
 
-  useEffect(() => {
-    dispatch(setCategoryInput(value));
-  }, []);
+
 
   useEffect(() => {
     const fetchPosts = async () => {
