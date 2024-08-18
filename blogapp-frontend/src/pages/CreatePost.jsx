@@ -1,7 +1,7 @@
 import { TextInput, FileInput, Button } from "flowbite-react";
 import ReactQuill from "react-quill";
 import { modules, formats } from "../utils/quill";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import CategoryDropdown from "../components/CategoryDropdown";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -27,9 +27,6 @@ const CreatePost = () => {
   const loading = useSelector(state => state.posts.loading)
   let category = useSelector(state => state.category.categoryInput)
   const notification = useSelector(state => state.notification)
-  if (category === '') {
-    category = 'uncategorised'
-  }
 
   useEffect(() => {
     if (notification) {
@@ -89,9 +86,13 @@ const CreatePost = () => {
       return
     }
 
+    if (category === '') {
+      category = 'Uncategorised'
+    }
+
     const result = await dispatch(createNewPost({ ...formData, category }))
     if (result.success) {
-      navigate(`post/${result.slug}`)
+      navigate(`/post/${result.slug}`)
     }
 
   }

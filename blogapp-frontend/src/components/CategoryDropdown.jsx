@@ -1,10 +1,25 @@
 import { TextInput } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryInput, setFilteredCategories, setDropdownVisible } from "../redux/reducers/categoryReducer";
+import { setCategoryInput, setFilteredCategories, setDropdownVisible, setCategories } from "../redux/reducers/categoryReducer";
+import { useEffect } from "react";
+import { getPosts } from "../redux/reducers/postsReducer";
+import { fetchCategories } from "../redux/reducers/categoryReducer";
 
-const CategoryDropdown = () => {
+const CategoryDropdown = ({ value = '' }) => {
   const dispatch = useDispatch();
   const { categories, categoryInput, filteredCategories, dropdownVisible } = useSelector(state => state.category);
+
+  useEffect(() => {
+    dispatch(setCategoryInput(value));
+  }, []);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      await dispatch(fetchCategories());
+    };
+    fetchPosts();
+  } , [])
+
 
   const handleCategoryChange = (e) => {
     const val = e.target.value;
@@ -38,12 +53,11 @@ const CategoryDropdown = () => {
         value={categoryInput}
         onChange={handleCategoryChange}
         className="w-full"
-        required
         onFocus={() => dispatch(setDropdownVisible(true))}
         onBlur={handleBlur}
       />
       {dropdownVisible && (
-        <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
+        <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
           {filteredCategories.map((category) => (
             <div
               key={category}

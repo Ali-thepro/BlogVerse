@@ -54,10 +54,14 @@ const update = async (request, response, next) => {
 const deleteUser = async (request, response, next) => {
   const { id } = request.params
   if (request.user._id.toString() !== id) {
-    return next(createError('You are not allowed to delete this user', 401))
+    return next(createError('You are not allowed to delete this user', 403))
   }
-  await User.findByIdAndDelete(id)
-  response.status(204).send('User deleted successfully')
+  try {
+    await User.findByIdAndDelete(id)
+    response.status(204).end()
+  } catch (error) {
+    next(error)
+  }
 }
 
 const signOut = async (request, response) => { 

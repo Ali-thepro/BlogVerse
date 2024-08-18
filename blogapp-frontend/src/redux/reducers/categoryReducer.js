@@ -1,17 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getCategories } from '../../services/post'
+import { setNotification } from './notificationReducer'
 
 const initialState = {
-  categories: [
-    "technology",
-    "science",
-    "health",
-    "nature",
-    "sports",
-    "food",
-    "travel",
-    "lifestyle",
-    "fashion"
-  ],
+  categories: [],
   categoryInput: "",
   filteredCategories: [],
   dropdownVisible: false
@@ -30,8 +22,24 @@ const categorySlice = createSlice({
     setDropdownVisible: (state, action) => {
       state.dropdownVisible = action.payload;
     },
+    setCategories: (state, action) => {
+      state.categories = action.payload;
+    }
   }
 });
 
-export const { setCategoryInput, setFilteredCategories, setDropdownVisible } = categorySlice.actions;
+export const fetchCategories = () => {
+  return async (dispatch) => {
+    try {
+      const categories = await getCategories();
+      dispatch(setCategories(categories));
+    } catch (error) { 
+      const errorMessage = error?.response?.data?.error || error.message;
+      dispatch(setNotification(errorMessage, 'failure'));
+
+    }
+  }
+}
+
+export const { setCategoryInput, setFilteredCategories, setDropdownVisible, setCategories } = categorySlice.actions;
 export default categorySlice.reducer;

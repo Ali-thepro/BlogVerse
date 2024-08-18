@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import CreatePost from './pages/CreatePost';
 import Header from './components/Header';
 import FooterComponent from './components/FooterComponent';
+import EditPost from './pages/EditPost';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { useSelector } from 'react-redux';
@@ -40,6 +41,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/edit-post/:postId" element={<EditPost />} />
         </Route>
       </Routes>
       <FooterComponent />

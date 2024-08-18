@@ -1,9 +1,12 @@
 const postRouter = require('express').Router();
-const { create, getPosts, getPostByUser } = require('../controllers/postController');
+const { create, getPosts, deletePost, editPost, distinctCategories } = require('../controllers/postController');
 const middleware = require('../utils/middleware');
 
 postRouter.post('/create', middleware.verifyUser, create);
 postRouter.get('/getposts', getPosts);
-postRouter.get('/getpostbyuser', middleware.verifyUser, getPostByUser);
+postRouter.delete('/delete/:postId', middleware.verifyUser, deletePost);
+postRouter.put('/edit/:postId', middleware.verifyUser, editPost);
+postRouter.get('/categories', distinctCategories);
+
 
 module.exports = postRouter;  
