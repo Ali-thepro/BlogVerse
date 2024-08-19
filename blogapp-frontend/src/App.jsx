@@ -8,12 +8,11 @@ import CreatePost from './pages/CreatePost';
 import Header from './components/Header';
 import FooterComponent from './components/FooterComponent';
 import EditPost from './pages/EditPost';
+import PostPage from './pages/PostPage';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -40,6 +39,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/post/:postSlug" element={<PostPage />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-post" element={<CreatePost />} />
@@ -52,4 +52,3 @@ const App = () => {
 }
 
 export default App;
-library.add(fas);

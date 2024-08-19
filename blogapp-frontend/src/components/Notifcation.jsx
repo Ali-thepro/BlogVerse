@@ -4,7 +4,7 @@ import { Alert } from 'flowbite-react';
 const Notification = () => {
   const notification = useSelector(state => state.notification);
 
-  if (notification.message === null) {
+  if (!notification || notification.message === null) {
     return null;
   }
 

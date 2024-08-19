@@ -110,21 +110,22 @@ const editPost = async (request, response, next) => {
     }
   }
 
-  if (request.user.isAdmin || post.user.toString() === request.user.id) {
-    try {
-      const updatedPost = await Post.findByIdAndUpdate(
-        postId,
-        update,
-        { new: true, runValidators: true, context: 'query' })
-        .populate('user', { username: 1, email: 1, profilePicture: 1 })
-      response.json(updatedPost)
-
-    } catch (error) {
-      next(error)
-    }
-  } else {
+  if (!request.user.isAdmin && post.user.toString() !== request.user.id) {
     return next(createError('You are not allowed to edit this post', 403))
   }
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      update,
+      { new: true, runValidators: true, context: 'query' })
+      .populate('user', { username: 1, email: 1, profilePicture: 1 })
+    response.json(updatedPost)
+
+  } catch (error) {
+    next(error)
+  }
+
 }
 
 const distinctCategories = async (request, response) => { 

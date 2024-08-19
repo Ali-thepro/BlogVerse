@@ -10,7 +10,6 @@ body {
   font-size: 1.05rem;
 }
 
-
 .post-content p {
   margin-bottom: 0.5rem;
 }
@@ -38,5 +37,132 @@ body {
 }
 
 .dark .post-content a {
-  color: red;
+  color: rgb(27, 71, 216);
+}
+
+.post-content h3 {
+  font-size: 1.3rem;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content h4 {
+  font-size: 1.2rem;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content h5 {
+  font-size: 1.1rem;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content h6 {
+  font-size: 1rem;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-content strong {
+  font-weight: bold;
+}
+
+.post-content em {
+  font-style: italic;
+}
+
+.post-content u {
+  text-decoration: underline;
+}
+
+.post-content s {
+  text-decoration: line-through;
+}
+
+.post-content blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+}
+
+.post-content pre {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.post-content code {
+  background-color: #f5f5f5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+}
+
+
+.post-content .ql-indent-1 {
+  padding-left: 1rem;
+}
+
+.post-content .ql-indent-2 {
+  padding-left: 2rem;
+}
+
+.post-content .ql-indent-3 {
+  padding-left: 3rem;
+}
+
+.post-content .ql-indent-4 {
+  padding-left: 4rem;
+}
+
+.post-content .ql-indent-5 {
+  padding-left: 5rem;
+}
+
+.post-content .ql-indent-6 {
+  padding-left: 6rem;
+}
+
+.post-content .ql-indent-7 {
+  padding-left: 7rem;
+}
+
+.post-content .ql-indent-8 {
+  padding-left: 8rem;
+}
+
+.post-content .ql-indent-9 {
+  padding-left: 9rem;
+}
+
+
+/* Dark Mode Styles */
+
+
+.dark .post-content blockquote {
+  border-left: 4px solid #4a5568;
+  color: #a0aec0;
+}
+
+.dark .post-content pre {
+  background-color: #2d3748;
+  color: #e2e8f0;
+}
+
+.dark .post-content code {
+  background-color: #2d3748;
+  color: #e2e8f0;
 }

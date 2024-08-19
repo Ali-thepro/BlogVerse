@@ -47,6 +47,7 @@ const postsSlice = createSlice({
   },
 });
 
+
 export const createNewPost = (post) => {
   return async (dispatch) => {
     dispatch(initial());

@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Notification from "./Notifcation";
 import { getPosts, deletePost } from "../redux/reducers/postsReducer";
 import { Link } from "react-router-dom";
-import { Table } from "flowbite-react";
+import { Table, Spinner } from "flowbite-react";
 import ReusableModal from "./Modal";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const DashboardPosts = () => {
   const dispatch = useDispatch();
@@ -148,8 +147,8 @@ const DashboardPosts = () => {
       ) : (
         <div className="">
           <Notification />
-          <p className="text-2xl font-semibold text-gray-800 dark:text-white">
-            {loading ? <FontAwesomeIcon icon="spinner" spin /> : 'No posts found'}
+          <p className="text-center text-2xl font-semibold text-gray-800 dark:text-white pt-5">
+            {loading ? <Spinner size='xl'/> : 'No posts found'}
           </p>
         </div>
       )}

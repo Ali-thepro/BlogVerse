@@ -1,4 +1,4 @@
-import { Table } from 'flowbite-react'
+import { Table, Spinner } from 'flowbite-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getUsers } from '../redux/reducers/usersReducer'
@@ -6,7 +6,6 @@ import { deleteUser } from '../redux/reducers/authReducer'
 import { Link } from 'react-router-dom'
 import Notification from './Notifcation'
 import ReusableModal from './Modal'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FaCheck, FaTimes } from "react-icons/fa";
 
 const DashboardUsers = () => {
@@ -124,8 +123,8 @@ const DashboardUsers = () => {
       ) : (
         <div className="">
           <Notification />
-          <p className="text-2xl font-semibold text-gray-800 dark:text-white">
-            {loading ? <FontAwesomeIcon icon="spinner" spin /> : 'No users found'}
+          <p className="text-center text-2xl font-semibold text-gray-800 dark:text-white pt-5">
+            {loading ? <Spinner size='xl'/> : 'No posts found'}
           </p>
         </div>
       )}
