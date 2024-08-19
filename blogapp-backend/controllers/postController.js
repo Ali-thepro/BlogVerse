@@ -80,15 +80,14 @@ const deletePost = async (request, response, next) => {
   if (!post) {
     return next(createError('Post not found', 404))
   }
-  if (request.user.isAdmin || post.user.toString() === request.user.id) {
-    try {
-      await Post.findByIdAndDelete(postId)
-      response.status(204).end()
-    } catch (error) { 
-      next(error)
-    }
-  } else {
-    return next(createError('Unauthorized', 403))
+  if (!request.user.isAdmin && post.user.toString() !== request.user.id) {
+    return next(createError('You are not allowed to delete this post', 403))
+  }
+  try {
+    await Post.findByIdAndDelete(postId)
+    response.status(204).end()
+  } catch (error) { 
+    next(error)
   }
 }
 
@@ -124,7 +123,7 @@ const editPost = async (request, response, next) => {
       next(error)
     }
   } else {
-    return next(createError('Unauthorized', 403))
+    return next(createError('You are not allowed to edit this post', 403))
   }
 }
 

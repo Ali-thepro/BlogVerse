@@ -56,7 +56,7 @@ const verifyUser = async (request, response, next) => {
 
   const token = request.cookies.token
   if (!token) {
-    return next(createError('Unauthorised', 401))
+    return next(createError('Unauthorised', 401)) // token missing
   }
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!decodedToken.id) {
@@ -64,7 +64,7 @@ const verifyUser = async (request, response, next) => {
   }
   const user = await User.findById(decodedToken.id)
   if (!user) {
-    return next(createError('Unauthorised', 401))
+    return next(createError('Unauthorised', 401)) // user not found
   }
   request.user = user
   next()

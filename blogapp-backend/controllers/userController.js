@@ -53,7 +53,7 @@ const update = async (request, response, next) => {
 
 const deleteUser = async (request, response, next) => {
   const { id } = request.params
-  if (request.user._id.toString() !== id) {
+  if (!request.user.isAdmin && request.user._id.toString() !== id) {
     return next(createError('You are not allowed to delete this user', 403))
   }
   try {
@@ -71,9 +71,45 @@ const signOut = async (request, response) => {
     .send('User signed out successfully')
 }
 
+const getUsers = async (request, response, next) => {
+  try {
+    const startIndex = parseInt(request.query.startIndex) || 0
+    const limit = parseInt(request.query.limit) || 9
+    const sortBy = request.query.order === 'asc' ? 1 : -1
+    const users = await User.find()
+      .sort({ createdAt: sortBy })
+      .skip(startIndex)
+      .limit(limit)
+    
+    const totalUsers = await User.countDocuments()
+
+    const now = new Date()
+
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate(),
+    )
+
+    const lastMonthUsers = await User.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    })
+
+    response.status(200).json({
+      users,
+      totalUsers,
+      lastMonthUsers
+    })
+
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   test,
   update,
   deleteUser,
-  signOut
+  signOut,
+  getUsers
 } 

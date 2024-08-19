@@ -15,3 +15,8 @@ export const signOutUserFromDB = async () => {
   const response = await axios.post(`${BASE_URL}/signout`);
   return response.data;
 };
+
+export const getUsersFromDB = async (query = '') => { 
+  const response = await axios.get(`${BASE_URL}/getusers${query}`);
+  return response.data;
+}

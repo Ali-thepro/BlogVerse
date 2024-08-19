@@ -9,9 +9,9 @@ import ReusableModal from "./Modal";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
-import { updateUserDetails, deleteUserDetails, signOutUser } from "../redux/reducers/authReducer";
+import { updateUser, deleteUser, signOutUser } from "../redux/reducers/authReducer";
 
-const Profile = () => {
+const DashboardProfile = () => {
   const [image, setImage] = useState(null)
   const [imageUrl, setImageUrl] = useState(null)
   const [imageUploadProgress, setImageUploadProgress] = useState(0)
@@ -62,7 +62,7 @@ const Profile = () => {
           setImageUrl(downloadURL)
           setImageUploadLoading(false)
           // setImageUploadProgress(0) // didnt add for image upload
-          setFormData({ ...formData, profilePicture: downloadURL })
+          setFormData({ ...formData, DashboardProfilePicture: downloadURL })
         });
       }
     )
@@ -83,12 +83,12 @@ const Profile = () => {
       dispatch(setNotification('No changes made', 'failure'))
       return
     }
-    dispatch(updateUserDetails({ ...formData, id: user.id }))
+    dispatch(updateUser({ ...formData, id: user.id }))
   }
 
   const handleDelete = async () => {
     setShowModal(false)
-    const success = await dispatch(deleteUserDetails(user.id))
+    const success = await dispatch(deleteUser(user.id))
     if (success) {
       navigate('/')
     }
@@ -190,7 +190,7 @@ const Profile = () => {
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleDelete}
-        title="Are you sure you want to delete your account? Everything associated with your account will be lost"
+        title="Are you sure you want to delete your account? This action cannot be undone."
         confirmText="Yes, I'm sure"
         cancelText="No, Cancel"
       />
@@ -198,4 +198,4 @@ const Profile = () => {
   )
 }
 
-export default Profile;
+export default DashboardProfile;

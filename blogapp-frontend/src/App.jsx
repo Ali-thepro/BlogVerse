@@ -12,10 +12,12 @@ import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-export default function App() {
+const App = () => {
   const theme = useSelector(state => state.theme)
   const darkModeToastStyle = {
     backgroundColor: "#2d3748",
@@ -48,3 +50,6 @@ export default function App() {
     </Router>
   )
 }
+
+export default App;
+library.add(fas);

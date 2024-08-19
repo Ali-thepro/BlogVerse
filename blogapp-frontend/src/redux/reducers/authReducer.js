@@ -4,16 +4,15 @@ import { signin, google } from '../../services/auth'
 import { update, deleteUserFromDB, signOutUserFromDB } from '../../services/user'
 import { toast } from 'react-toastify'
 
-const state = () => {
-  return ({
-    user: null,
-    loading: false,
-  })
+
+const initialState = {
+  user: null,
+  loading: false,
 }
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: state(),
+  initialState,
   reducers: {
     setUser(state, action) {
       return { user: action.payload, loading: false }
@@ -24,11 +23,14 @@ const authSlice = createSlice({
     setError(state, action) {
       return { ...state,  loading: false }
     },
-    updateUser(state, action) { 
+    editUser(state, action) { 
       return { user: action.payload, loading: false }
     },
-    deleteUser(state, action) { 
+    removeUser(state, action) { 
       return { user: null, loading: false }
+    },
+    removeUserThroughAdmin(state, action) { 
+      return { ...state, loading: false}
     },
     signOut(state, action) { 
       return { user: null, loading: false }
@@ -70,12 +72,12 @@ export const googleLogin = (credentials) => {
   }
 }
 
-export const updateUserDetails = (credentials) => { 
+export const updateUser = (credentials) => { 
   return async dispatch => {
     dispatch(initial())
     try {
       const user = await update(credentials)
-      dispatch(updateUser(user))
+      dispatch(editUser(user))
       dispatch(setNotification('User"s profile updated sucessfully', 'success'))
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
@@ -84,13 +86,18 @@ export const updateUserDetails = (credentials) => {
   }
 }
 
-export const deleteUserDetails = (id) => { 
+export const deleteUser = (id, isAdmin = false) => { 
   return async dispatch => {
     dispatch(initial())
     try {
       await deleteUserFromDB(id)
-      dispatch(deleteUser())
-      toast.success('User deleted sucessfully')
+      if (isAdmin) {
+        dispatch(removeUserThroughAdmin())
+        dispatch(setNotification('User deleted successfully', 'success'))
+      } else {
+        dispatch(removeUser())
+        toast.success('User deleted successfully')
+      }
       return true
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
@@ -119,5 +126,5 @@ export const signOutUser = () => {
 
 
 
-export const { setUser, initial, setError, updateUser, deleteUser, signOut } = authSlice.actions
+export const { setUser, initial, setError, editUser, removeUser, signOut, removeUserThroughAdmin } = authSlice.actions
 export default authSlice.reducer

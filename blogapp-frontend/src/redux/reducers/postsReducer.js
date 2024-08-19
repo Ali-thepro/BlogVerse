@@ -22,29 +22,26 @@ const postsSlice = createSlice({
       };
     },
     createPost(state, action) {
-      return { ...state, posts: [...state.posts, action.payload] };
+      return { loading: false, posts: [...state.posts, action.payload] };
     },
     addPosts(state, action) { 
       return { 
-        ...state, 
         posts: [...state.posts, ...action.payload.posts],
         totalPosts: action.payload.totalPosts,
-        lastMonthPosts: action.payload.lastMonthPosts
+        lastMonthPosts: action.payload.lastMonthPosts,
+        loading: false
       };
     },
-    deleteAPost(state, action) {
-      return { ...state, posts: state.posts.filter((post) => post.id !== action.payload) };
+    removePost(state, action) {
+      return { loading: false, posts: state.posts.filter((post) => post.id !== action.payload) };
     },
     updatePost(state, action) { 
-      return { ...state, posts: state.posts.map((post) => post.id === action.payload.id ? action.payload : post) };
+      return { loading: false, posts: state.posts.map((post) => post.id === action.payload.id ? action.payload : post) };
     },
     initial(state, action) {
       return { ...state, loading: true };
     },
     setError(state, action) {
-      return { ...state, loading: false };
-    },
-    loadingOff(state, action) {
       return { ...state, loading: false };
     },
   },
@@ -57,7 +54,6 @@ export const createNewPost = (post) => {
       const newPost = await createPostInDB(post);
       dispatch(createPost(newPost));
       toast.success("Post created sucessfully");
-      dispatch(loadingOff());
       return { success: true, slug: newPost.slug };
     } catch (error) {
       const errorMessage = error.response?.data?.error || "An error occurred";
@@ -83,13 +79,11 @@ export const getPosts = (query = '', wantIndex = false) => {
       } else {
         dispatch(setPosts(payload));
       }
-      dispatch(loadingOff());
       return response.posts;
     } catch (error) {
       const errorMessage = error.response?.data?.error || "An error occurred";
       dispatch(setNotification(errorMessage, "failure"));
       dispatch(setError());
-      return false;
     }
   };
 };
@@ -99,9 +93,8 @@ export const deletePost = (postId) => {
     dispatch(initial());
     try {
       await deletePostFromDB(postId);
-      dispatch(deleteAPost(postId));
-      dispatch(loadingOff());
-      toast.success("Post deleted successfully");
+      dispatch(removePost(postId));
+      dispatch(setNotification("Post deleted successfully", "success"));
     } catch (error) {
       const errorMessage = error.response?.data?.error || "An error occurred";
       dispatch(setNotification(errorMessage, "failure"));
@@ -117,7 +110,6 @@ export const editPost = (postId, post) => {
       const updatedPost = await editPostInDB(postId, post);
       dispatch(updatePost(updatedPost));
       toast.success("Post updated successfully");
-      dispatch(loadingOff());
       return { success: true, slug: updatedPost.slug };
     } catch (error) {
       console.log(error);
@@ -129,5 +121,5 @@ export const editPost = (postId, post) => {
   };
 }
 
-export const { setPosts, createPost, initial, setError, loadingOff, addPosts, deleteAPost, updatePost} = postsSlice.actions;
+export const { setPosts, createPost, initial, setError, addPosts, removePost, updatePost} = postsSlice.actions;
 export default postsSlice.reducer;

@@ -5,28 +5,35 @@ import { getPosts, deletePost } from "../redux/reducers/postsReducer";
 import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
 import ReusableModal from "./Modal";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Posts = () => {
+const DashboardPosts = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
   const posts = useSelector(state => state.posts.posts);
   const loading = useSelector(state => state.posts.loading);
+  const notification = useSelector(state => state.notification);
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState(null);
 
   useEffect(() => {
+    if (notification) {
+      window.scrollTo(0, 0);
+    }
+  }, [notification]);
+
+
+  useEffect(() => {
     const adminFetch = async () => {
       const fetchedPosts = await dispatch(getPosts());
       if (fetchedPosts.length < 9) {
-        console.log('show more false');
         setShowMore(false);
       }
     }
     const userFetch = async () => {
       const fetchedPosts = await dispatch(getPosts(`?userId=${user.id}`));
       if (fetchedPosts.length < 9) {
-        console.log('show more false');
         setShowMore(false);
       }
     }
@@ -62,6 +69,7 @@ const Posts = () => {
     >
       {posts && posts.length > 0 && !loading ? (
         <>
+          <Notification />
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date Updated</Table.HeadCell>
@@ -136,13 +144,12 @@ const Posts = () => {
               Show more
             </button>
           )}
-          <Notification />
         </>
       ) : (
         <div className="">
           <Notification />
           <p className="text-2xl font-semibold text-gray-800 dark:text-white">
-            No posts found
+            {loading ? <FontAwesomeIcon icon="spinner" spin /> : 'No posts found'}
           </p>
         </div>
       )}
@@ -150,7 +157,7 @@ const Posts = () => {
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleDelete}
-        title="Are you sure you want to delete your account?"
+        title="Are you sure you want to delete this post?"
         confirmText="Yes, I'm sure"
         cancelText="No, Cancel"
       />
@@ -158,4 +165,4 @@ const Posts = () => {
   )
 }
 
-export default Posts;
+export default DashboardPosts;

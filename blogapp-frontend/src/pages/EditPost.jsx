@@ -102,16 +102,15 @@ const EditPost = () => {
     if (category === '') {
       category = 'Uncategorised';
     }
-    console.log(posts[0].category === category);
     if (Object.keys(formData).length === 0 && category === posts[0].category) {
       dispatch(setNotification('No changes made', 'failure'));
       return;
     }
 
-    // const result = await dispatch(editPost(postId, { ...formData, category }));
-    // if (result.success) {
-    //   navigate(`/post/${result.slug}`);
-    // }
+    const result = await dispatch(editPost(postId, { ...formData, category }));
+    if (result.success) {
+      navigate(`/post/${result.slug}`);
+    }
   };
 
   return (
