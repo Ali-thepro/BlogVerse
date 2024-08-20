@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../redux/reducers/postsReducer';
 import Notification from '../components/Notifcation';
 import CommentSection from '../components/CommentSection';
+import PostCard from '../components/PostCard';
 
 
 const PostPage = () => {
@@ -15,20 +16,15 @@ const PostPage = () => {
   const { postSlug } = useParams();
   const [post, setPost] = useState(null);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      const fetchedpost = await dispatch(getPosts(`?slug=${postSlug}`));
-      setPost(fetchedpost[0]);
-    }
-    fetchPost();
-  }, [postSlug]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      await dispatch(getPosts());
-    }
-    fetchPosts();
-  }, [])
+    const fetchData = async () => {
+      const fetchedPosts = await dispatch(getPosts(`?slug=${postSlug}`));
+      setPost(fetchedPosts[0]);
+      await dispatch(getPosts('?limit=3'));
+    };
+    fetchData();
+  }, [postSlug]);
 
   if (loading) {
     return (
@@ -73,6 +69,13 @@ const PostPage = () => {
             dangerouslySetInnerHTML={{ __html: post && post.content }}
           ></div>
           <CommentSection post={post.id} />
+          <div className='flex flex-col justify-center items-center mb-5'>
+            <h1 className='text-xl mt-5'>Recent articles</h1>
+            <div className='flex flex-wrap gap-5 mt-5 justify-center'>
+              {posts &&
+                posts.map((post) => <PostCard key={post.id} post={post} />)}
+            </div>
+          </div>
         </>
       )}
     </main>

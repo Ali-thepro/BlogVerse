@@ -7,7 +7,7 @@ import { Button, Textarea } from 'flowbite-react';
 import { FaThumbsUp } from 'react-icons/fa';
 import ReusableModal from './ReusableModal';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, handleDeleteComment }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.user);
@@ -37,6 +37,7 @@ const Comment = ({ comment }) => {
 
   const handleDelete = async () => {
     await dispatch(deleteComment(comment.id));
+    handleDeleteComment();
   }
 
 

@@ -13,6 +13,8 @@ const CommentSection = ({ post }) => {
   const user = useSelector(state => state.auth.user);
   const [comment, setComment] = useState('');
   const [showMore, setShowMore] = useState(true);
+
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (comment.length === 0 || comment.length > 200) {
@@ -23,6 +25,8 @@ const CommentSection = ({ post }) => {
     const fetchedComments = await dispatch(getPostComments(post, '?limit=-1'));
     if (fetchedComments.length < 5) {
       setShowMore(false);
+    } else {
+      setShowMore(true);
     }
     setComment('');
   }
@@ -32,6 +36,8 @@ const CommentSection = ({ post }) => {
       const fetchedComments = await dispatch(getPostComments(post, '?limit=-1'));
       if (fetchedComments.length < 5) {
         setShowMore(false);
+      } else {
+        setShowMore(true);
       }
     }
     fetchComments();
@@ -43,6 +49,10 @@ const CommentSection = ({ post }) => {
     if (fetchedComments.length < 5) {
       setShowMore(false);
     }
+  }
+
+  const handleDeleteComment = () => {
+    dispatch(getPostComments(post, '?limit=-1'));
   }
 
   return (
@@ -107,6 +117,7 @@ const CommentSection = ({ post }) => {
                 <Comment 
                   key={comment.id}
                   comment={comment}
+                  handleDeleteComment={handleDeleteComment}
                 />
               )
             })}
