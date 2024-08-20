@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../redux/reducers/postsReducer';
 import Notification from '../components/Notifcation';
+import CommentSection from '../components/CommentSection';
 
 
 const PostPage = () => {
@@ -20,7 +21,7 @@ const PostPage = () => {
       setPost(fetchedpost[0]);
     }
     fetchPost();
-  }, [dispatch, postSlug]);
+  }, [postSlug]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -36,7 +37,6 @@ const PostPage = () => {
       </div>
     );
   }
-  console.log(post)
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
       <Notification />
@@ -72,6 +72,7 @@ const PostPage = () => {
             className='p-3 max-w-2xl mx-auto w-full post-content'
             dangerouslySetInnerHTML={{ __html: post && post.content }}
           ></div>
+          <CommentSection post={post.id} />
         </>
       )}
     </main>

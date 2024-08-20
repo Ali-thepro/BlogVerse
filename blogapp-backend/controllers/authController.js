@@ -61,7 +61,7 @@ const signin = async (request, response, next) => {
     isAdmin: user.isAdmin,
   };
 
-  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 60 * 60 });
+  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 7200 }); // 2 hours
 
   response
     .status(200)
@@ -94,7 +94,13 @@ const google = async (request, response, next) => {
     });
     const savedUser = await newUser.save();
 
-    const token = jwt.sign({ email, id: savedUser._id, isAdmin: savedUser.isAdmin }, process.env.SECRET, { expiresIn: 7200 }); // 2 hours
+    const userForToken = {
+      email: savedUser.email,
+      id: savedUser._id,
+      isAdmin: savedUser.isAdmin,
+    }
+
+    const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 7200 }); // 2 hours
     response
       .status(201)
       .cookie('token', token, {

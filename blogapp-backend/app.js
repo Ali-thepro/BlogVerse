@@ -10,6 +10,7 @@ const middleware = require('./utils/middleware');
 const userRouter = require('./routes/userRouter.js')
 const authRouter = require('./routes/authRouter.js')
 const postRouter = require('./routes/postRouter.js')
+const commentRouter = require('./routes/commentRouter')
 const cookieParser = require('cookie-parser')
 
 mongoose.set('strictQuery', false)
@@ -29,12 +30,10 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-
-
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
-
+app.use('/api/comments', commentRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

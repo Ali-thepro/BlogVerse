@@ -1,4 +1,3 @@
-const post = require('../models/post')
 const Post = require('../models/post')
 const createError = require('../utils/error')
 
@@ -100,6 +99,11 @@ const editPost = async (request, response, next) => {
   if (!post) {
     return next(createError('Post not found', 404))
   }
+  const slug = request.body.title
+  .split(' ')
+  .join('-')
+  .toLowerCase()
+  .replace(/[^a-zA-Z0-9-]/g, '')
 
   const update = {
     $set: {
@@ -107,6 +111,7 @@ const editPost = async (request, response, next) => {
       content: request.body.content,
       category: request.body.category,
       image: request.body.image,
+      slug
     }
   }
 

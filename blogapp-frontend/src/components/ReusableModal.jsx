@@ -2,7 +2,6 @@ import { Modal, Button } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-
 const ReusableModal = ({ show, onClose, onConfirm, title, confirmText, cancelText }) => {
   const theme = useSelector(state => state.theme);
   return (

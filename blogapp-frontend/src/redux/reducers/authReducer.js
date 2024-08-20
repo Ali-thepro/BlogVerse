@@ -72,11 +72,11 @@ export const googleLogin = (credentials) => {
   }
 }
 
-export const updateUser = (credentials) => { 
+export const updateUser = (userId, credentials) => { 
   return async dispatch => {
     dispatch(initial())
     try {
-      const user = await update(credentials)
+      const user = await update(userId, credentials)
       dispatch(editUser(user))
       dispatch(setNotification('User"s profile updated sucessfully', 'success'))
     } catch (error) {

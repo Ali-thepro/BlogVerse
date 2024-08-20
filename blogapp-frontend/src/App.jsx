@@ -9,6 +9,7 @@ import Header from './components/Header';
 import FooterComponent from './components/FooterComponent';
 import EditPost from './pages/EditPost';
 import PostPage from './pages/PostPage';
+import ScrollToTop from './components/ScrollToTop';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ const App = () => {
 
   return (
     <Router>
+      <ScrollToTop />
       <Header />
       <ToastContainer 
         position="top-right"

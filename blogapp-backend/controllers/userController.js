@@ -2,14 +2,10 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const createError = require('../utils/error')
 
-const test = async (request, response) => { 
-  response.send('Api is working')
-}
 
 const update = async (request, response, next) => {
   const { id } = request.params
-  // console.log(request.user._id.toString())
-  if (request.user._id.toString() !== id) {
+  if (request.user.id !== id) {
     return next(createError('You are not allowed to updated this user', 403))
   }
 
@@ -53,7 +49,7 @@ const update = async (request, response, next) => {
 
 const deleteUser = async (request, response, next) => {
   const { id } = request.params
-  if (!request.user.isAdmin && request.user._id.toString() !== id) {
+  if (!request.user.isAdmin && request.user.id !== id) {
     return next(createError('You are not allowed to delete this user', 403))
   }
   try {
@@ -107,7 +103,6 @@ const getUsers = async (request, response, next) => {
 }
 
 module.exports = {
-  test,
   update,
   deleteUser,
   signOut,

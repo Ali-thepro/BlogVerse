@@ -22,7 +22,12 @@ const postsSlice = createSlice({
       };
     },
     createPost(state, action) {
-      return { loading: false, posts: [...state.posts, action.payload] };
+      return {
+        loading: false,
+        posts: [...state.posts, action.payload],
+        totalPosts: state.totalPosts + 1,
+        lastMonthPosts: state.lastMonthPosts + 1,
+      };
     },
     addPosts(state, action) { 
       return { 
@@ -33,10 +38,10 @@ const postsSlice = createSlice({
       };
     },
     removePost(state, action) {
-      return { loading: false, posts: state.posts.filter((post) => post.id !== action.payload) };
+      return { ...state, loading: false, posts: state.posts.filter((post) => post.id !== action.payload) };
     },
     updatePost(state, action) { 
-      return { loading: false, posts: state.posts.map((post) => post.id === action.payload.id ? action.payload : post) };
+      return { ...state, loading: false, posts: state.posts.map((post) => post.id === action.payload.id ? action.payload : post) };
     },
     initial(state, action) {
       return { ...state, loading: true };

@@ -4,14 +4,14 @@ import Notification from "./Notifcation";
 import { getPosts, deletePost } from "../redux/reducers/postsReducer";
 import { Link } from "react-router-dom";
 import { Table, Spinner } from "flowbite-react";
-import ReusableModal from "./Modal";
+import ReusableModal from "./ReusableModal";
 
 const DashboardPosts = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.user);
-  const posts = useSelector(state => state.posts.posts);
-  const loading = useSelector(state => state.posts.loading);
-  const notification = useSelector(state => state.notification);
+  const user = useSelector((state) => state.auth.user);
+  const posts = useSelector((state) => state.posts.posts);
+  const loading = useSelector((state) => state.posts.loading);
+  const notification = useSelector((state) => state.notification);
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postId, setPostId] = useState(null);
@@ -22,34 +22,37 @@ const DashboardPosts = () => {
     }
   }, [notification]);
 
-
   useEffect(() => {
     const adminFetch = async () => {
       const fetchedPosts = await dispatch(getPosts());
       if (fetchedPosts.length < 9) {
         setShowMore(false);
       }
-    }
+    };
     const userFetch = async () => {
       const fetchedPosts = await dispatch(getPosts(`?userId=${user.id}`));
       if (fetchedPosts.length < 9) {
         setShowMore(false);
       }
-    }
+    };
     if (user.isAdmin) {
       adminFetch();
     } else {
       userFetch();
     }
-  }, [])
+  }, []);
 
   const handleShowMore = async () => {
     const startIndex = posts.length;
     let fetchedPosts;
     if (user.isAdmin) {
-      fetchedPosts = await dispatch(getPosts(`?startIndex=${startIndex}`, true));
+      fetchedPosts = await dispatch(
+        getPosts(`?startIndex=${startIndex}`, true)
+      );
     } else {
-      fetchedPosts = await dispatch(getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true));
+      fetchedPosts = await dispatch(
+        getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true)
+      );
     }
     if (fetchedPosts.length < 9) {
       setShowMore(false);
@@ -59,13 +62,10 @@ const DashboardPosts = () => {
   const handleDelete = async () => {
     setShowModal(false);
     await dispatch(deletePost(postId, user.id));
-
-  }
+  };
 
   return (
-    <div 
-      className="table-auto overflow-x-scroll md:mx-auto p-3  scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
-    >
+    <div className="table-auto overflow-x-scroll md:mx-auto p-3  scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {posts && posts.length > 0 && !loading ? (
         <>
           <Notification />
@@ -82,63 +82,71 @@ const DashboardPosts = () => {
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-            {posts.map(post => {
-              return (
-                <Table.Row
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                  key={post.id}
-                >
-                  <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
-                  {user.isAdmin && <Table.Cell>
-                    <Link
-                      className="text-blue-500 hover:underline"
-                      to={`/user/${post.user.id}`}
-                    >
-                      {post.user.username}
-                    </Link>
-                  </Table.Cell>}
-                  <Table.Cell>
-                    <Link to={`/post/${post.slug}`}>
-                      <img src={post.image} alt={post.title} className="w-20 h-10 object-cover bg-gray-500" />
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link
-                      className="font-medium text-gray-900 dark:text-white"
-                      to={`/post/${post.slug}`}
-                    >
-                      {post.title}
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>{post.category}</Table.Cell>
-                  <Table.Cell>
-                    <span
-                      onClick={() => {
-                        setShowModal(true);
-                        setPostId(post.id);
-                      }}
-                      className="font-medium text-red-500 cursor-pointer"
-                    >
-                      Delete
-                    </span>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link 
-                      to={`/edit-post/${post.id}`}
-                      className="text-blue-500 hover:underline"
-                    >
-                      <span>Edit</span>
-                    </Link>
-                  </Table.Cell>
-                </Table.Row>
-              )
-            })}
+              {posts.map((post) => {
+                return (
+                  <Table.Row
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={post.id}
+                  >
+                    <Table.Cell>
+                      {new Date(post.updatedAt).toLocaleDateString()}
+                    </Table.Cell>
+                    {user.isAdmin && (
+                      <Table.Cell>
+                        <Link
+                          className="text-blue-500 hover:underline"
+                          to={`/user/${post.user.id}`}
+                        >
+                          {post.user.username}
+                        </Link>
+                      </Table.Cell>
+                    )}
+                    <Table.Cell>
+                      <Link to={`/post/${post.slug}`}>
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-20 h-10 object-cover bg-gray-500"
+                        />
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        className="font-medium text-gray-900 dark:text-white"
+                        to={`/post/${post.slug}`}
+                      >
+                        {post.title}
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>{post.category}</Table.Cell>
+                    <Table.Cell>
+                      <span
+                        onClick={() => {
+                          setShowModal(true);
+                          setPostId(post.id);
+                        }}
+                        className="font-medium text-red-500 cursor-pointer"
+                      >
+                        Delete
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        to={`/edit-post/${post.id}`}
+                        className="text-blue-500 hover:underline"
+                      >
+                        <span>Edit</span>
+                      </Link>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
             </Table.Body>
           </Table>
           {showMore && (
             <button
               onClick={handleShowMore}
-              className='w-full text-teal-500 self-center text-sm py-7'
+              className="w-full text-teal-500 self-center text-sm py-7"
             >
               Show more
             </button>
@@ -148,7 +156,7 @@ const DashboardPosts = () => {
         <div className="">
           <Notification />
           <p className="text-center text-2xl font-semibold text-gray-800 dark:text-white pt-5">
-            {loading ? <Spinner size='xl'/> : 'No posts found'}
+            {loading ? <Spinner size="xl" /> : "No posts found"}
           </p>
         </div>
       )}
@@ -161,7 +169,7 @@ const DashboardPosts = () => {
         cancelText="No, Cancel"
       />
     </div>
-  )
-}
+  );
+};
 
 export default DashboardPosts;

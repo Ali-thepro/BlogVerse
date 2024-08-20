@@ -6,6 +6,7 @@ import themeReducer from './reducers/themeReducer';
 import categoryReducer from './reducers/categoryReducer';
 import postsReducer from './reducers/postsReducer';
 import usersReducer from './reducers/usersReducer';
+import commentReducer from './reducers/commentReducer';
 import storage from 'redux-persist/lib/storage';
 import expireReducer from 'redux-persist-expire';
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   posts: postsReducer,
   users: usersReducer,
+  comments: commentReducer,
 });
 
 
@@ -23,7 +25,7 @@ const persistConfig = {
   key: 'root',
   storage,
   version: 1,
-  blacklist: ['notification', 'category', 'posts', 'user'],
+  blacklist: ['notification', 'category', 'posts', 'user', 'comments'],
   transforms: [
     expireReducer('auth', {
       expireSeconds: 7200,

@@ -42,7 +42,7 @@ const EditPost = () => {
       await dispatch(getPosts(`?postId=${postId}`));
     };
     fetchPosts();
-  }, [dispatch, postId]);
+  }, [postId]);
   
   useEffect(() => {
     if (posts && posts.length > 0) {

@@ -1,8 +1,8 @@
 import axios from "axios";
 const BASE_URL = "/api/user";
 
-export const update = async (credentials) => {
-  const response = await axios.put(`${BASE_URL}/update/${credentials.id}`, credentials);
+export const update = async (userId, credentials) => {
+  const response = await axios.put(`${BASE_URL}/update/${userId}`, credentials);
   return response.data;
 };
 
