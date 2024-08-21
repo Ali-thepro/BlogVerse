@@ -107,6 +107,7 @@ const CreatePost = () => {
   return (
     <div className="p-3 max-w-4xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
+      <p className="text-center text-sm text-red-500 my-7 font-semibold">If the desired category is not available in the dropdown, you may create a new one.</p>
       <Notification />
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
