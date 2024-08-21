@@ -77,7 +77,7 @@ const likeComment = async (request, response, next) => {
       { new: true, timestamps: false }
     );
     
-    await savedComment.populate('user', { username: 1, profilePicture: 1 }).execPopulate();
+    await savedComment.populate('user', { username: 1, profilePicture: 1 });
     response.status(200).json(savedComment);
   } catch (error) {
     next(error);
