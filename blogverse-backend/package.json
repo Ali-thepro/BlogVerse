@@ -1,11 +1,12 @@
 {
-  "name": "blogapp-backend",
+  "name": "blogverse-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node blogapp-backend/index.js",
     "dev": "cross-env NODE_ENV=development nodemon blogapp-backend/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf blogverse-frontend/dist npm install && npm install --prefix blogverse-frontend && npm run build --prefix blogverse-frontend"
   },
   "author": "ali ahmad",
   "license": "ISC",
