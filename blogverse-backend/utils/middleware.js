@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken')
 const createError = require('./error')
 const User = require('../models/user')
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
 
 const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
@@ -71,7 +68,6 @@ const verifyUser = async (request, response, next) => {
 }
 
 module.exports = {
-  unknownEndpoint,
   errorHandler,
   customErrorHandler,
   verifyUser
