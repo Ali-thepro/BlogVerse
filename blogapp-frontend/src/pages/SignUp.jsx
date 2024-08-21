@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signup } from "../services/auth";
 import { setNotification } from "../redux/reducers/notificationReducer";
 import { useDispatch } from "react-redux";
-import Notification from "../components/Notifcation";
+import Notification from "../components/Notification";
 import OAuth from "../components/OAuth";
 
 

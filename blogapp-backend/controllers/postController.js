@@ -30,17 +30,17 @@ const getPosts = async (request, response) => {
     ...(request.query.category ? { category: request.query.category } : {}),
     ...(request.query.slug ? { slug: request.query.slug } : {}),
     ...(request.query.postId ? { _id: request.query.postId } : {}),
-    ...(request.query.search ? {
+    ...(request.query.searchTerm ? {
       $or: [
-        { title: { $regex: request.query.search, $options: 'i' } },
-        { content: { $regex: request.query.search, $options: 'i' } },
+        { title: { $regex: request.query.searchTerm, $options: 'i' } },
+        { content: { $regex: request.query.searchTerm, $options: 'i' } },
       ]
     } : {}),
   }
 
   const startIndex = parseInt(request.query.startIndex) || 0
   const limit = parseInt(request.query.limit) || 9
-  const sortBy = request.query.order === 'asc' ? 1 : -1
+  const sortBy = request.query.sort === 'asc' ? 1 : -1
   const posts = await Post.find(filter)
     .sort({ updatedAt: sortBy })
     .skip(startIndex)

@@ -1,14 +1,14 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import notificationReducer from './reducers/notificationReducer';
-import authReducer from './reducers/authReducer';
-import themeReducer from './reducers/themeReducer';
-import categoryReducer from './reducers/categoryReducer';
-import postsReducer from './reducers/postsReducer';
-import usersReducer from './reducers/usersReducer';
-import commentReducer from './reducers/commentReducer';
-import storage from 'redux-persist/lib/storage';
-import expireReducer from 'redux-persist-expire';
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import notificationReducer from "./reducers/notificationReducer";
+import authReducer from "./reducers/authReducer";
+import themeReducer from "./reducers/themeReducer";
+import categoryReducer from "./reducers/categoryReducer";
+import postsReducer from "./reducers/postsReducer";
+import usersReducer from "./reducers/usersReducer";
+import commentsReducer from "./reducers/commentsReducer";
+import storage from "redux-persist/lib/storage";
+import expireReducer from "redux-persist-expire";
 
 const rootReducer = combineReducers({
   notification: notificationReducer,
@@ -17,31 +17,31 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   posts: postsReducer,
   users: usersReducer,
-  comments: commentReducer,
+  comments: commentsReducer,
 });
 
-
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
   version: 1,
-  blacklist: ['notification', 'category', 'posts', 'user', 'comments'],
+  blacklist: ["notification", "category", "posts", "user", "comments"],
   transforms: [
-    expireReducer('auth', {
+    expireReducer("auth", {
       expireSeconds: 7200,
       expiredState: {},
       autoExpire: true,
     }),
   ],
-}
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false
-  })
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export const persistor = persistStore(store);

@@ -71,7 +71,7 @@ const getUsers = async (request, response, next) => {
   try {
     const startIndex = parseInt(request.query.startIndex) || 0
     const limit = parseInt(request.query.limit) || 9
-    const sortBy = request.query.order === 'asc' ? 1 : -1
+    const sortBy = request.query.sort === 'asc' ? 1 : -1
     const users = await User.find()
       .sort({ createdAt: sortBy })
       .skip(startIndex)

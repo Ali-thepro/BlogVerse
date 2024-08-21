@@ -3,7 +3,7 @@ import { Label, TextInput, Button, Spinner } from "flowbite-react";
 import { useState } from "react";
 import { login } from "../redux/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
-import Notification from "../components/Notifcation";
+import Notification from "../components/Notification";
 import OAuth from "../components/OAuth";
 
 const SignIn = () => {

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../redux/reducers/postsReducer';
-import Notification from '../components/Notifcation';
+import Notification from '../components/Notification';
 import CommentSection from '../components/CommentSection';
 import PostCard from '../components/PostCard';
 

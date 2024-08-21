@@ -9,7 +9,7 @@ import {
 import { app } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import Notification from "./Notifcation";
+import Notification from "./Notification";
 import ReusableModal from "./ReusableModal";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
 import { CircularProgressbar } from "react-circular-progressbar";

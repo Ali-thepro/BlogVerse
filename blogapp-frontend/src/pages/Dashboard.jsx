@@ -6,7 +6,8 @@ import SideBar from '../components/SideBar';
 import DashboardProfile from '../components/DashboardProfile';
 import DashboardPosts from '../components/DashboardPosts';
 import DashboardUsers from '../components/DashboardUsers';
-import DashComments from '../components/DashComments';
+import DashboardComments from '../components/DashboardComments';
+import DashboardOverview from '../components/DashboardOverview';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -30,10 +31,11 @@ const Dashboard = () => {
         <SideBar/>
       </div>
 
+      {tab === 'dash' && <DashboardOverview />} 
       {tab === 'profile' && <DashboardProfile />}
       {tab === 'posts' && <DashboardPosts />}
       {tab === 'users' && <DashboardUsers />}
-      {tab === 'comments' && <DashComments />}
+      {tab === 'comments' && <DashboardComments />}
     </div>
   )
 }

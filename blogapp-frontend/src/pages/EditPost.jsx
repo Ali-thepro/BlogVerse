@@ -7,7 +7,7 @@ import CategoryDropdown from "../components/CategoryDropdown";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase";
 import { useState, useEffect } from "react";
-import Notification from "../components/Notifcation";
+import Notification from "../components/Notification";
 import { setNotification, hide } from "../redux/reducers/notificationReducer";
 import { setCategoryInput } from "../redux/reducers/categoryReducer";
 import { editPost, getPosts } from "../redux/reducers/postsReducer";

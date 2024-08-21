@@ -130,7 +130,7 @@ const getComments = async (request, response, next) => {
     const filter = request.query.userId ? { user: request.query.userId } : {};
     const startIndex = parseInt(request.query.startIndex) || 0;
     const limit = parseInt(request.query.limit) || 9;
-    const sortBy = request.query.order === 'asc' ? 1 : -1;
+    const sortBy = request.query.sort === 'asc' ? 1 : -1;
 
     const comments = await Comment.find(filter)
       .sort({ updatedAt: sortBy })

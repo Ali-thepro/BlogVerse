@@ -5,13 +5,24 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { setTheme } from "../redux/reducers/themeReducer";
 import { signOutUser } from "../redux/reducers/authReducer";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const user = useSelector(state => state.auth.user)
   const path = useLocation().pathname
   const theme = useSelector(state => state.theme)
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    const search = urlParams.get('searchTerm')
+    if (search) {
+      setSearch(search)
+    }
+  }, [location.search])
 
   const changeTheme = () => {
     dispatch(setTheme())
@@ -19,6 +30,15 @@ const Header = () => {
   const handleSignOut = () => {
     dispatch(signOutUser())
     navigate('/')
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const urlParams = new URLSearchParams(location.search)
+    urlParams.set('searchTerm', search)
+    const query = urlParams.toString()
+    console.log(query)
+    navigate(`/search?${query}`)
   }
 
   return (
@@ -29,15 +49,17 @@ const Header = () => {
           <span className="px-2 py-1 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-lg text-white">Verse</span>
         </Link>
       </Navbar.Brand>
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextInput 
           type="text" 
           placeholder="Search" 
           className="hidden lg:inline"
           rightIcon={AiOutlineSearch}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </form>
-      <Button className="w-12 h-10 lg:hidden focus:ring-0" color='gray' pill>
+      <Button className="w-12 h-10 lg:hidden focus:ring-0" color='gray' pill as={Link} to={'/search'}>
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">

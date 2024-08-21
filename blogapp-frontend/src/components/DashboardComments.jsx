@@ -1,21 +1,20 @@
-import { Table, Spinner } from 'flowbite-react'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { FaCheck, FaTimes } from 'react-icons/fa'
-import Notification from './Notifcation'
-import ReusableModal from './ReusableModal'
-import { getComments, deleteComment } from '../redux/reducers/commentReducer'
-import { Link } from 'react-router-dom'
+import { Table, Spinner } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Notification from "./Notification";
+import ReusableModal from "./ReusableModal";
+import { getComments, deleteComment } from "../redux/reducers/commentsReducer";
+import { Link } from "react-router-dom";
 
 const DashComments = () => {
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.auth.user)
-  const comments = useSelector((state) => state.comments.comments)
-  const loading = useSelector((state) => state.comments.loading)
-  const notification = useSelector((state) => state.notification)
-  const [showModal, setShowModal] = useState(false)
-  const [commentId, setCommentId] = useState(null)
-  const [showMore, setShowMore] = useState(true)
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const comments = useSelector((state) => state.comments.comments);
+  const loading = useSelector((state) => state.comments.loading);
+  const notification = useSelector((state) => state.notification);
+  const [showModal, setShowModal] = useState(false);
+  const [commentId, setCommentId] = useState(null);
+  const [showMore, setShowMore] = useState(true);
 
   useEffect(() => {
     if (notification) {
@@ -41,7 +40,6 @@ const DashComments = () => {
     } else {
       userFetch();
     }
-
   }, []);
 
   const handleShowMore = async () => {
@@ -64,8 +62,7 @@ const DashComments = () => {
   const handleDelete = async () => {
     setShowModal(false);
     await dispatch(deleteComment(commentId));
-  }
-
+  };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3  scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
@@ -78,9 +75,8 @@ const DashComments = () => {
               <Table.HeadCell>Comment content</Table.HeadCell>
               <Table.HeadCell>Number of ikes</Table.HeadCell>
               <Table.HeadCell>Post</Table.HeadCell>
-              {user.isAdmin && (<Table.HeadCell>User</Table.HeadCell>)}
+              {user.isAdmin && <Table.HeadCell>User</Table.HeadCell>}
               <Table.HeadCell>Delete</Table.HeadCell>
-
             </Table.Head>
             <Table.Body className="divide-y">
               {comments.map((comment) => {
@@ -92,12 +88,8 @@ const DashComments = () => {
                     <Table.Cell>
                       {new Date(comment.updatedAt).toLocaleDateString()}
                     </Table.Cell>
-                    <Table.Cell>
-                      {comment.content}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {comment.numberOfLikes}
-                    </Table.Cell>
+                    <Table.Cell>{comment.content}</Table.Cell>
+                    <Table.Cell>{comment.numberOfLikes}</Table.Cell>
                     <Table.Cell>
                       <Link
                         to={`/post/${comment.post.slug}`}
@@ -159,8 +151,6 @@ const DashComments = () => {
       />
     </div>
   );
-
-
-}
+};
 
 export default DashComments;

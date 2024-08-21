@@ -1,5 +1,5 @@
 import { Sidebar as SidebarDiv } from 'flowbite-react'
-import { HiArrowSmRight, HiDocumentText, HiUser, HiOutlineUserGroup, HiAnnotation } from 'react-icons/hi'
+import { HiArrowSmRight, HiDocumentText, HiUser, HiOutlineUserGroup, HiAnnotation, HiChartPie } from 'react-icons/hi'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,7 +18,7 @@ const Sidebar = () => {
       setTab(tab);
     }
   }, [location.search]);
-
+  
   const handleSignOut = () => {
     dispatch(signOutUser())
     navigate('/')
@@ -27,6 +27,17 @@ const Sidebar = () => {
     <SidebarDiv className='w-full md:w-56'>
       <SidebarDiv.Items>
         <SidebarDiv.ItemGroup className='flex flex-col gap-1'>
+          {user.isAdmin && (
+              <SidebarDiv.Item
+                active={tab === 'dash'}
+                icon={HiChartPie}
+                labelColor='dark'
+                as={Link}
+                to={'/dashboard?tab=dash'}
+              >
+                Dashboard
+              </SidebarDiv.Item>
+          )}
           <SidebarDiv.Item 
             active={tab === 'profile'}
             icon={HiUser} label={user.isAdmin ? 'Admin' : 'User'}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getUsers } from "../redux/reducers/usersReducer";
 import { deleteUser } from "../redux/reducers/authReducer";
 import { Link } from "react-router-dom";
-import Notification from "./Notifcation";
+import Notification from "./Notification";
 import ReusableModal from "./ReusableModal";
 import { FaCheck, FaTimes } from "react-icons/fa";
 

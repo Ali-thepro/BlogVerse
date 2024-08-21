@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Notification from "./Notifcation";
+import Notification from "./Notification";
 import { getPosts, deletePost } from "../redux/reducers/postsReducer";
 import { Link } from "react-router-dom";
 import { Table, Spinner } from "flowbite-react";
@@ -24,13 +24,13 @@ const DashboardPosts = () => {
 
   useEffect(() => {
     const adminFetch = async () => {
-      const fetchedPosts = await dispatch(getPosts());
+      const fetchedPosts = dispatch(getPosts());
       if (fetchedPosts.length < 9) {
         setShowMore(false);
       }
     };
     const userFetch = async () => {
-      const fetchedPosts = await dispatch(getPosts(`?userId=${user.id}`));
+      const fetchedPosts = dispatch(getPosts(`?userId=${user.id}`));
       if (fetchedPosts.length < 9) {
         setShowMore(false);
       }
@@ -46,11 +46,11 @@ const DashboardPosts = () => {
     const startIndex = posts.length;
     let fetchedPosts;
     if (user.isAdmin) {
-      fetchedPosts = await dispatch(
+      fetchedPosts = dispatch(
         getPosts(`?startIndex=${startIndex}`, true)
       );
     } else {
-      fetchedPosts = await dispatch(
+      fetchedPosts = dispatch(
         getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true)
       );
     }
@@ -59,9 +59,9 @@ const DashboardPosts = () => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     setShowModal(false);
-    await dispatch(deletePost(postId, user.id));
+    dispatch(deletePost(postId, user.id));
   };
 
   return (
