@@ -31,14 +31,14 @@ const Search = () => {
     const searchTerm = urlParams.get('searchTerm');
     const sort = urlParams.get('sort');
     const category = urlParams.get('category');
-    const user = urlParams.get('userId');
+    const userId = urlParams.get('userId');
     const sortField = urlParams.get('sortField');
-    if (searchTerm || sort || category || user || sortField) {
+    if (searchTerm || sort || category || userId || sortField) {
       setSearchData({
         searchTerm: searchTerm || '',
         sort: sort || 'desc',
         category: category || '',
-        userId: user || '',
+        userId: userId || '',
         sortField: sortField || 'updatedAt',
       });
     }
@@ -159,9 +159,9 @@ const Search = () => {
         </h1>
         <div className='p-7 flex flex-wrap gap-4'>
           {!loading && posts.length === 0 && (
-            <p className='text-xl text-gray-500'>No posts found.</p>
+            <p className='text-2xl  text-gray-500 dark:text-white'>No posts found.</p>
           )}
-          {loading && <p className='text-xl text-gray-500'>Loading...</p>}
+          {loading && <p className='text-2xl  text-gray-500 dark:text-white'><Spinner size="xl" /></p>}
           {!loading &&
             posts &&
             posts.map((post) => <PostCard key={post.id} post={post} />)}

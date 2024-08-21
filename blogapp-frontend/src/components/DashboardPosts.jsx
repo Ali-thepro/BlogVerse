@@ -109,14 +109,20 @@ const DashboardPosts = () => {
                     </Table.Cell>
                     <Table.Cell>
                       <Link
-                        className="font-medium text-gray-900 dark:text-white"
+                        className="font-medium text-blue-500 hover:underline"
                         to={`/post/${post.slug}`}
                       >
                         {post.title}
                       </Link>
                     </Table.Cell>
                     <Table.Cell>{post.numberOfLikes}</Table.Cell>
-                    <Table.Cell>{post.category}</Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        to={`/search?category=${post.category}`}
+                      >
+                        {post.category}
+                      </Link>
+                    </Table.Cell>
                     <Table.Cell>
                       <span
                         onClick={() => {

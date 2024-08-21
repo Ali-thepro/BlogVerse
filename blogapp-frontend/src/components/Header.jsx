@@ -21,6 +21,8 @@ const Header = () => {
     const search = urlParams.get('searchTerm')
     if (search) {
       setSearch(search)
+    } else {
+      setSearch('')
     }
   }, [location.search])
 
@@ -37,7 +39,6 @@ const Header = () => {
     const urlParams = new URLSearchParams(location.search)
     urlParams.set('searchTerm', search)
     const query = urlParams.toString()
-    console.log(query)
     navigate(`/search?${query}`)
   }
 
