@@ -37,10 +37,10 @@ app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
 app.use('/api/comments', commentRouter)
 
-app.use(express.static(path.join(__dirname, '/blogverse-frontend/dist')))
+app.use(express.static(path.join(__dirname, '../blogverse-frontend/dist')))
 
 app.get('*', (req, res) => { 
-  res.sendFile(path.join(__dirname, 'blogverse-frontend', 'dist', 'index.html'))
+  res.sendFile(path.join(__dirname, '../blogverse-frontend', 'dist', 'index.html'))
 })
 
 app.use(middleware.errorHandler)
