@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Comment = require('./comment');
 
 const postSchema = new mongoose.Schema(
   {
@@ -48,6 +49,18 @@ postSchema.set('toJSON', {
     delete returnedObject._id;
     delete returnedObject.__v;
   },
+});
+
+
+postSchema.pre('findOneAndDelete', async function(next) {
+  try {
+    const query = this.getQuery();
+    const postId = query._id;
+    await Comment.deleteMany({ post: postId });
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = mongoose.model('Post', postSchema);

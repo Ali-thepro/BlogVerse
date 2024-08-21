@@ -25,13 +25,13 @@ const DashboardComments = () => {
   useEffect(() => {
     const adminFetch = async () => {
       const fetchedComments = await dispatch(getComments());
-      if (fetchedComments.length < 9) {
+      if ( fetchedComments && fetchedComments.length < 9) {
         setShowMore(false);
       }
     };
     const userFetch = async () => {
       const fetchedComments = await dispatch(getComments(`?userId=${user.id}`));
-      if (fetchedComments.length < 9) {
+      if ( fetchedComments && fetchedComments.length < 9) {
         setShowMore(false);
       }
     };
@@ -44,13 +44,13 @@ const DashboardComments = () => {
 
   const handleShowMore = async () => {
     const startIndex = comments.length;
-    let fetchedPosts;
+    let fetchedComments;
     if (user.isAdmin) {
-      fetchedPosts = await dispatch(getPosts(`?startIndex=${startIndex}`, true));
+      fetchedComments = await dispatch(getPosts(`?startIndex=${startIndex}`, true));
     } else {
-      fetchedPosts = await dispatch(getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true));
+      fetchedComments = await dispatch(getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true));
     }
-    if (fetchedPosts.length < 9) {
+    if (fetchedComments.length < 9) {
       setShowMore(false);
     }
   };
@@ -133,7 +133,7 @@ const DashboardComments = () => {
         <div className="">
           <Notification />
           <p className="text-center text-2xl font-semibold text-gray-800 dark:text-white pt-5">
-            {loading ? <Spinner size="xl" /> : "No posts found"}
+            {loading ? <Spinner size="xl" /> : "No comments found"}
           </p>
         </div>
       )}

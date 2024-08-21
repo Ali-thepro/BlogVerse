@@ -23,7 +23,7 @@ const DashboardLikes = () => {
   useEffect(() => {
     const fetchLikes = async () => {
       const fetchedPosts = await dispatch(getPosts(`?likedBy=${user.id}`));
-      if (fetchedPosts.length < 9) {
+      if (fetchedPosts && fetchedPosts.length < 9) {
         setShowMore(false);
       } else {
         setShowMore(true);
@@ -33,8 +33,8 @@ const DashboardLikes = () => {
   }, []);
   const handleShowMore = async () => {
     const startIndex = posts.length;
-    fetchedPosts = dispatch(getPosts(`?likedBy=${user.id}&startIndex=${startIndex}`, true));
-    if (fetchedPosts.length < 9) {
+    fetchedPosts = await dispatch(getPosts(`?likedBy=${user.id}&startIndex=${startIndex}`, true));
+    if (fetchedPosts && fetchedPosts.length < 9) {
       setShowMore(false);
     } else {
       setShowMore(true);
@@ -104,7 +104,7 @@ const DashboardLikes = () => {
         <div className="">
           <Notification />
           <p className="text-center text-2xl font-semibold text-gray-800 dark:text-white pt-5">
-            {loading ? <Spinner size="xl" /> : "No posts found"}
+            {loading ? <Spinner size="xl" /> : "No likes found"}
           </p>
         </div>
       )}

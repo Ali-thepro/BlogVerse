@@ -72,8 +72,10 @@ const DashboardProfile = () => {
         getDownloadURL(uploadtask.snapshot.ref).then((downloadURL) => {
           setImageUrl(downloadURL);
           setImageUploadLoading(false);
-          // setImageUploadProgress(0) // didnt add for image upload
-          setFormData({ ...formData, DashboardProfilePicture: downloadURL });
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            profilePicture: downloadURL,
+          }));
         });
       }
     );
@@ -86,7 +88,7 @@ const DashboardProfile = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (imageUploadLoading) {
       dispatch(setNotification("Image is still uploading", "failure"));
@@ -96,7 +98,8 @@ const DashboardProfile = () => {
       dispatch(setNotification("No changes made", "failure"));
       return;
     }
-    dispatch(updateUser(user.id, formData));
+    await dispatch(updateUser(user.id, formData));
+    setImageUploadProgress(0);
   };
 
   const handleDelete = async () => {
@@ -158,7 +161,6 @@ const DashboardProfile = () => {
         </div>
         <Notification />
 
-        
         <TextInput
           type="text"
           placeholder="Username"

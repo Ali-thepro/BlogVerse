@@ -38,7 +38,12 @@ const postsSlice = createSlice({
       };
     },
     removePost(state, action) {
-      return { ...state, loading: false, posts: state.posts.filter((post) => post.id !== action.payload) };
+      return {
+        loading: false,
+        posts: state.posts.filter((post) => post.id !== action.payload),
+        totalPosts: state.totalPosts - 1,
+        lastMonthPosts: state.lastMonthPosts - 1,
+      };
     },
     updatePost(state, action) { 
       return { ...state, loading: false, posts: state.posts.map((post) => post.id === action.payload.id ? action.payload : post) };

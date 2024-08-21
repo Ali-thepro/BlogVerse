@@ -122,8 +122,8 @@ const DashboardOverview = () => {
                   <Table.HeadCell>Username</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className='divide-y'>
-                {users && 
-                  users.map((user) => ( // no need to have a return statement here
+                  {users && users.length > 0 ? (
+                    users.map((user) => (
                       <Table.Row key={user.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                         <Table.Cell>
                           <img
@@ -133,15 +133,20 @@ const DashboardOverview = () => {
                           />
                         </Table.Cell>
                         <Table.Cell>
-                        <Link
-                          to={`/search?userId=${user.id}`}
-                          className='text-blue-500 hover:underline'
-                        >
-                          {user.username}
-                        </Link>
+                          <Link
+                            to={`/search?userId=${user.id}`}
+                            className='text-blue-500 hover:underline'
+                          >
+                            {user.username}
+                          </Link>
                         </Table.Cell>
                       </Table.Row>
-                  ))}
+                    ))
+                  ) : (
+                    <Table.Row>
+                      <Table.Cell colSpan="2" className="text-center">No users found</Table.Cell>
+                    </Table.Row>
+                  )}
                 </Table.Body>
               </Table>
             </div>
@@ -158,15 +163,20 @@ const DashboardOverview = () => {
                   <Table.HeadCell>Likes</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className='divide-y'>
-                {comments &&
-                  comments.map((comment) => (
+                  {comments && comments.length > 0 ? (
+                    comments.map((comment) => (
                       <Table.Row key={comment.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                         <Table.Cell className='w-96'>
-                            <p className='line-clamp-2'>{comment.content}</p>
+                          <p className='line-clamp-2'>{comment.content}</p>
                         </Table.Cell>
                         <Table.Cell>{comment.numberOfLikes}</Table.Cell>
                       </Table.Row>
-                  ))}
+                    ))
+                  ) : (
+                    <Table.Row>
+                      <Table.Cell colSpan="2" className="text-center">No comments found</Table.Cell>
+                    </Table.Row>
+                  )}
                 </Table.Body>
               </Table>
             </div>
@@ -183,9 +193,9 @@ const DashboardOverview = () => {
                   <Table.HeadCell>Post Title</Table.HeadCell>
                   <Table.HeadCell>Category</Table.HeadCell>
                 </Table.Head>
-                <Table.Body  className='divide-y'>
-                {posts &&
-                  posts.map((post) => (
+                <Table.Body className='divide-y'>
+                  {posts && posts.length > 0 ? (
+                    posts.map((post) => (
                       <Table.Row key={post.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                         <Table.Cell>
                           <Link
@@ -200,16 +210,21 @@ const DashboardOverview = () => {
                           </Link>
                         </Table.Cell>
                         <Table.Cell className='w-96'>
-                        <Link
-                          to={`/post/${post.slug}`}
-                          className='text-blue-500 hover:underline'
-                        >
-                          {post.slug}
-                        </Link>
+                          <Link
+                            to={`/post/${post.slug}`}
+                            className='text-blue-500 hover:underline'
+                          >
+                            {post.slug}
+                          </Link>
                         </Table.Cell>
                         <Table.Cell className='w-5'>{post.category}</Table.Cell>
                       </Table.Row>
-                  ))}
+                    ))
+                  ) : (
+                    <Table.Row>
+                      <Table.Cell colSpan="3" className="text-center">No posts found</Table.Cell>
+                    </Table.Row>
+                  )}
                 </Table.Body>
               </Table>
             </div>
@@ -222,10 +237,8 @@ const DashboardOverview = () => {
           </p>
         </div>
       )}
-
     </div>
   );
-
 };
 
 export default DashboardOverview;

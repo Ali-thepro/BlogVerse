@@ -24,14 +24,14 @@ const DashboardPosts = () => {
 
   useEffect(() => {
     const adminFetch = async () => {
-      const fetchedPosts = dispatch(getPosts());
+      const fetchedPosts = await dispatch(getPosts());
       if (fetchedPosts.length < 9) {
         setShowMore(false);
       }
     };
     const userFetch = async () => {
-      const fetchedPosts = dispatch(getPosts(`?userId=${user.id}`));
-      if (fetchedPosts.length < 9) {
+      const fetchedPosts = await dispatch(getPosts(`?userId=${user.id}`));
+      if (fetchedPosts && fetchedPosts.length < 9) {
         setShowMore(false);
       }
     };
@@ -46,9 +46,9 @@ const DashboardPosts = () => {
     const startIndex = posts.length;
     let fetchedPosts;
     if (user.isAdmin) {
-      fetchedPosts = dispatch(getPosts(`?startIndex=${startIndex}`, true));
+      fetchedPosts = await dispatch(getPosts(`?startIndex=${startIndex}`, true));
     } else {
-      fetchedPosts = dispatch(getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true));
+      fetchedPosts = await dispatch(getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true));
     }
     if (fetchedPosts.length < 9) {
       setShowMore(false);

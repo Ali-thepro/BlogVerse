@@ -29,9 +29,6 @@ const authSlice = createSlice({
     removeUser(state, action) { 
       return { user: null, loading: false }
     },
-    removeUserThroughAdmin(state, action) { 
-      return { ...state, loading: false}
-    },
     signOut(state, action) { 
       return { user: null, loading: false }
     }
@@ -91,13 +88,8 @@ export const deleteUser = (id, isAdmin = false) => {
     dispatch(initial())
     try {
       await deleteUserFromDB(id)
-      if (isAdmin) {
-        dispatch(removeUserThroughAdmin())
-        dispatch(setNotification('User deleted successfully', 'success'))
-      } else {
-        dispatch(removeUser())
-        toast.success('User deleted successfully')
-      }
+      dispatch(removeUser())
+      toast.success('User deleted successfully')
       return true
     } catch (error) {
       dispatch(setNotification(error.response.data.error, 'failure'))
@@ -106,6 +98,7 @@ export const deleteUser = (id, isAdmin = false) => {
     }
   }
 }
+
 
 export const signOutUser = () => { 
   return async dispatch => {
@@ -126,5 +119,5 @@ export const signOutUser = () => {
 
 
 
-export const { setUser, initial, setError, editUser, removeUser, signOut, removeUserThroughAdmin } = authSlice.actions
+export const { setUser, initial, setError, editUser, removeUser, signOut } = authSlice.actions
 export default authSlice.reducer

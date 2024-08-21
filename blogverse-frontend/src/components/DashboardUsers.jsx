@@ -2,7 +2,7 @@ import { Table, Spinner } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUsers } from "../redux/reducers/usersReducer";
-import { deleteUser } from "../redux/reducers/authReducer";
+import { deleteUsers } from "../redux/reducers/usersReducer";
 import { Link } from "react-router-dom";
 import Notification from "./Notification";
 import ReusableModal from "./ReusableModal";
@@ -27,7 +27,7 @@ const DashboardUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const fetchedUsers = await dispatch(getUsers());
-      if (fetchedUsers.length < 9) {
+      if (fetchedUsers && fetchedUsers.length < 9) {
         setShowMore(false);
       }
     };
@@ -37,14 +37,14 @@ const DashboardUsers = () => {
   const handleShowMore = async () => {
     const startIndex = users.length;
     const fetchedUsers = await dispatch(getUsers(`?startIndex=${startIndex}`, true));
-    if (fetchedUsers.length < 9) {
+    if (fetchedUsers && fetchedUsers.length < 9) {
       setShowMore(false);
     }
-  };
+  };  
 
   const handleDelete = () => {
     setShowModal(false);
-    dispatch(deleteUser(userId, user.isAdmin));
+    dispatch(deleteUsers(userId, user.isAdmin));
   };
 
   return (
@@ -123,7 +123,7 @@ const DashboardUsers = () => {
         <div className="">
           <Notification />
           <p className="text-center text-2xl font-semibold text-gray-800 dark:text-white pt-5">
-            {loading ? <Spinner size="xl" /> : "No posts found"}
+            {loading ? <Spinner size="xl" /> : "No users found"}
           </p>
         </div>
       )}
