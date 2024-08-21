@@ -64,7 +64,7 @@ const Header = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="w-13 h-10 focus:ring-0 hidden sm:inline" color='gray' pill onClick={changeTheme}>
+        <Button className="w-13 h-10 focus:ring-0" color='gray' pill onClick={changeTheme}>
           {theme === 'light' ? <FaMoon size='15'/> : <FaSun size='15'/>}
         </Button>
         {user ? (
