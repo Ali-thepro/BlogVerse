@@ -90,15 +90,14 @@ const likePost = async (request, response, next) => {
       post.likes.splice(userIndex, 1);
     }
 
-    const savedPost = await Post.updateOne(
-      { _id: postId },
+    const savedPost = await post.findByIdAndUpdate(
+      postId,
       {
+        likes: post.likes,
         numberOfLikes: post.numberOfLikes,
-        likes: post.likes
       },
-      { timestamps: false }
+      { new: true, timestamps: false }
     );
-    
 
     response.status(200).json(savedPost);
   } catch (error) {

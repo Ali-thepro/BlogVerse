@@ -68,15 +68,22 @@ const likeComment = async (request, response, next) => {
     //   comment.numberOfLikes += 1;
     //   comment.likes.push(user);
     // }
-    const savedComment = await comment.save();
-    await savedComment.populate('user', { username: 1, profilePicture: 1 });
+    const savedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      {
+        numberOfLikes: comment.numberOfLikes,
+        likes: comment.likes 
+      },
+      { new: true, timestamps: false }
+    );
     
-
+    await savedComment.populate('user', { username: 1, profilePicture: 1 }).execPopulate();
     response.status(200).json(savedComment);
   } catch (error) {
     next(error);
   }
 }
+
 
 const editComment = async (request, response, next) => {
   try {
