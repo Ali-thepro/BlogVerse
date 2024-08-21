@@ -24,7 +24,7 @@ mongoose.connect(config.MONGODB_URI)
     logger.error('error connecting to MongoDB:', error.message)
   })
 
-// const __dirname = path.resolve()
+const __dirname = path.resolve()
 
 morgan.token('body', (req) => JSON.stringify(req.body))
 
@@ -38,11 +38,11 @@ app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
 app.use('/api/comments', commentRouter)
 
-// app.use(express.static(path.join(__dirname, '/blogverse-frontend/dist')))
+app.use(express.static(path.join(__dirname, '/blogverse-frontend/dist')))
 
-// app.get('*', (req, res) => { 
-//   res.sendFile(path.join(__dirname, 'blogverse-frontend', 'dist', 'index.html'))
-// })
+app.get('*', (req, res) => { 
+  res.sendFile(path.join(__dirname, 'blogverse-frontend', 'dist', 'index.html'))
+})
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
