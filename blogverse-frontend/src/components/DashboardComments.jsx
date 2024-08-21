@@ -69,7 +69,7 @@ const DashboardComments = () => {
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
               <Table.HeadCell>Comment content</Table.HeadCell>
-              <Table.HeadCell>Number of ikes</Table.HeadCell>
+              <Table.HeadCell>Number of likes</Table.HeadCell>
               <Table.HeadCell>Post</Table.HeadCell>
               {user.isAdmin && <Table.HeadCell>User</Table.HeadCell>}
               <Table.HeadCell>Delete</Table.HeadCell>
