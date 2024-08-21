@@ -52,7 +52,7 @@ const Comment = ({ comment, handleDeleteComment, post }) => {
       <div className="flex-1">
         <div className="flex items-center mb-1">
           <span className="font-bold mr-1 text-xs truncate">
-            {user ? `@${comment.user.username}` : "anonymous user"}
+            {comment.user ? `@${comment.user.username}` : "anonymous user"}
           </span>
           <span className="text-gray-500 text-xs">
             {moment(comment.updatedAt).fromNow()}
