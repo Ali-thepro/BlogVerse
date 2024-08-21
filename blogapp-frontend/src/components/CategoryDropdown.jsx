@@ -9,10 +9,7 @@ const CategoryDropdown = () => {
   const { categories, categoryInput, filteredCategories, dropdownVisible } = useSelector(state => state.category);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      await dispatch(fetchCategories());
-    };
-    fetchPosts();
+    dispatch(fetchCategories());
   } , [])
 
 

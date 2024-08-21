@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Notification from "./Notification";
-import {
-  createComment,
-  getPostComments,
-} from "../redux/reducers/commentsReducer";
+import { createComment, getPostComments } from "../redux/reducers/commentsReducer";
 import Comment from "./Comment";
 
 const CommentSection = ({ post }) => {
@@ -22,9 +19,7 @@ const CommentSection = ({ post }) => {
       return;
     }
     await dispatch(createComment({ comment, post: post.id, user: user.id }));
-    const fetchedComments = await dispatch(
-      getPostComments(post.id, "?limit=-1")
-    );
+    const fetchedComments = await dispatch(getPostComments(post.id, "?limit=-1"));
     if (fetchedComments.length < 5) {
       setShowMore(false);
     } else {
@@ -35,9 +30,7 @@ const CommentSection = ({ post }) => {
 
   useEffect(() => {
     const fetchComments = async () => {
-      const fetchedComments = await dispatch(
-        getPostComments(post.id, "?limit=-1")
-      );
+      const fetchedComments = await dispatch(getPostComments(post.id, "?limit=-1"));
       if (fetchedComments.length < 5) {
         setShowMore(false);
       } else {
@@ -49,9 +42,7 @@ const CommentSection = ({ post }) => {
 
   const handleShowMore = async () => {
     const startIndex = comments.length;
-    const fetchedComments = await dispatch(
-      getPostComments(post.id, `?startIndex=${startIndex}`, true)
-    );
+    const fetchedComments = await dispatch(getPostComments(post.id, `?startIndex=${startIndex}`, true));
     if (fetchedComments.length < 5) {
       setShowMore(false);
     }

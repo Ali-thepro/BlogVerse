@@ -39,7 +39,6 @@ const Search = () => {
         userId: user || '',
       });
     }
-    console.log(location.search);
     const fetchPosts = async () => {
       const fetchedPosts = await dispatch(getPosts(location.search));
       if (fetchedPosts.length < 9) {
@@ -57,7 +56,6 @@ const Search = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     let finalValue;
     if (name === 'sort') {
       finalValue = value === 'asc' ? 'asc' : 'desc';
@@ -72,16 +70,13 @@ const Search = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(searchData);
     const urlParams = new URLSearchParams();
     for (const key in searchData) {
       if (searchData[key]) {
-        console.log(key, searchData[key]);
         urlParams.set(key, searchData[key]);
       }
     }
     const query = urlParams.toString();
-    console.log(query);
     navigate(`/search?${query}`);
   }
 

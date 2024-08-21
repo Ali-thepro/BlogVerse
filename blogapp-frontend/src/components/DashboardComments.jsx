@@ -46,22 +46,18 @@ const DashComments = () => {
     const startIndex = comments.length;
     let fetchedPosts;
     if (user.isAdmin) {
-      fetchedPosts = await dispatch(
-        getPosts(`?startIndex=${startIndex}`, true)
-      );
+      fetchedPosts = await dispatch(getPosts(`?startIndex=${startIndex}`, true));
     } else {
-      fetchedPosts = await dispatch(
-        getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true)
-      );
+      fetchedPosts = await dispatch(getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true));
     }
     if (fetchedPosts.length < 9) {
       setShowMore(false);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     setShowModal(false);
-    await dispatch(deleteComment(commentId));
+    dispatch(deleteComment(commentId));
   };
 
   return (

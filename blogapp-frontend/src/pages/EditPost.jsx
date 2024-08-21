@@ -14,7 +14,6 @@ import { editPost, getPosts } from "../redux/reducers/postsReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import "react-quill/dist/quill.snow.css";
-import "../styles/quill.css";
 
 const EditPost = () => {
   const [file, setFile] = useState(null);
@@ -38,10 +37,7 @@ const EditPost = () => {
   }, [notification]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      await dispatch(getPosts(`?postId=${postId}`));
-    };
-    fetchPosts();
+    dispatch(getPosts(`?postId=${postId}`));	
   }, [postId]);
   
   useEffect(() => {

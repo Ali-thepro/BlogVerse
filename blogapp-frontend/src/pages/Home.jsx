@@ -13,10 +13,7 @@ const Home = () => {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      await dispatch(getPosts("?limit=9"));
-    };
-    fetchPosts();
+    dispatch(getPosts("?limit=9"));
   }, []);
 
   return (

@@ -20,7 +20,7 @@ const PostPage = () => {
     const fetchData = async () => {
       const fetchedPosts = await dispatch(getPosts(`?slug=${postSlug}`));
       setPost(fetchedPosts[0]);
-      await dispatch(getPosts('?limit=3'));
+      dispatch(getPosts('?limit=3'));
     };
     fetchData();
   }, [postSlug]);

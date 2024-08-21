@@ -36,17 +36,15 @@ const DashboardUsers = () => {
 
   const handleShowMore = async () => {
     const startIndex = users.length;
-    const fetchedUsers = await dispatch(
-      getUsers(`?startIndex=${startIndex}`, true)
-    );
+    const fetchedUsers = await dispatch(getUsers(`?startIndex=${startIndex}`, true));
     if (fetchedUsers.length < 9) {
       setShowMore(false);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     setShowModal(false);
-    await dispatch(deleteUser(userId, user.isAdmin));
+    dispatch(deleteUser(userId, user.isAdmin));
   };
 
   return (

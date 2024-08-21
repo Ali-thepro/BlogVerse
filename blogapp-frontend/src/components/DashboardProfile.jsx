@@ -1,11 +1,6 @@
 import { TextInput, Button } from "flowbite-react";
 import { useState, useRef, useEffect } from "react";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -91,7 +86,7 @@ const DashboardProfile = () => {
     });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (imageUploadLoading) {
       dispatch(setNotification("Image is still uploading", "failure"));

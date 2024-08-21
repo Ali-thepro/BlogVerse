@@ -24,19 +24,10 @@ const DashboardOverview = () => {
   );
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      await dispatch(getPosts('?limit=5'));
-    };
-    const fetchUsers = async () => {
-      await dispatch(getUsers('?limit=5'));
-    };
-    const fetchComments = async () => {
-      await dispatch(getComments('?limit=5'));
-    };
     if (user.isAdmin) {
-      fetchPosts();
-      fetchUsers();
-      fetchComments();
+      dispatch(getPosts('?limit=5'));
+      dispatch(getUsers('?limit=5'));
+      dispatch(getComments('?limit=5'));
     }
   }, [user]);
 

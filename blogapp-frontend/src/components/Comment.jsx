@@ -2,11 +2,7 @@ import moment from "moment";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  likeComment,
-  editComment,
-  deleteComment,
-} from "../redux/reducers/commentsReducer";
+import { likeComment, editComment, deleteComment } from "../redux/reducers/commentsReducer";
 import { Button, Textarea } from "flowbite-react";
 import { FaThumbsUp } from "react-icons/fa";
 import ReusableModal from "./ReusableModal";
@@ -19,28 +15,28 @@ const Comment = ({ comment, handleDeleteComment, post }) => {
   const [editedContent, setEditedContent] = useState(comment.content);
   const [showModal, setShowModal] = useState(false);
 
-  const handleLike = async () => {
+  const handleLike = () => {
     if (!user) {
       return navigate("/signin");
     }
-    await dispatch(likeComment(comment.id));
+    dispatch(likeComment(comment.id));
   };
 
-  const handleEdit = async () => {
+  const handleEdit = () => {
     setIsEditing(true);
     setEditedContent(comment.content);
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     setIsEditing(false);
     if (!user) {
       return navigate("/signin");
     }
-    await dispatch(editComment(comment.id, { content: editedContent }));
+    dispatch(editComment(comment.id, { content: editedContent }));
   };
 
-  const handleDelete = async () => {
-    await dispatch(deleteComment(comment.id));
+  const handleDelete =  () => {
+    dispatch(deleteComment(comment.id));
     handleDeleteComment();
   };
 

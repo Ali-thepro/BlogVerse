@@ -46,13 +46,9 @@ const DashboardPosts = () => {
     const startIndex = posts.length;
     let fetchedPosts;
     if (user.isAdmin) {
-      fetchedPosts = dispatch(
-        getPosts(`?startIndex=${startIndex}`, true)
-      );
+      fetchedPosts = dispatch(getPosts(`?startIndex=${startIndex}`, true));
     } else {
-      fetchedPosts = dispatch(
-        getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true)
-      );
+      fetchedPosts = dispatch(getPosts(`?userId=${user.id}&startIndex=${startIndex}`, true));
     }
     if (fetchedPosts.length < 9) {
       setShowMore(false);

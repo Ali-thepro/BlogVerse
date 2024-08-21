@@ -82,6 +82,14 @@ const Header = () => {
               <span className="block text-sm">@{user.username}</span>
               <span className="block text-sm font-medium truncate">{user.email}</span>
             </Dropdown.Header>
+            {user.isAdmin && (
+              <Link to={'/dashboard?tab=dash'}>
+                <Dropdown.Item>
+                  Dashboard
+                </Dropdown.Item>
+              </Link>
+            )}
+            <Dropdown.Divider />
             <Link to={'/dashboard?tab=profile'}>
               <Dropdown.Item>
                 Profile

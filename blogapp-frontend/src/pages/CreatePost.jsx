@@ -14,7 +14,6 @@ import { createNewPost } from "../redux/reducers/postsReducer";
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import "react-quill/dist/quill.snow.css";
-import "../styles/quill.css";
 
 const CreatePost = () => {
   const [file, setFile] = useState(null);
