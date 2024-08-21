@@ -6,7 +6,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd .. && rm -rf blogverse-frontend/dist && npm install && cd blogverse-frontend && npm install && npm run build"
+    "build": "npm install && cd blogverse-frontend && npm install && npm run build"
   },
   "author": "ali ahmad",
   "license": "ISC",
