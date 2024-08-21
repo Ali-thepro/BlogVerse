@@ -164,7 +164,7 @@ const DashboardPosts = () => {
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleDelete}
-        title="Are you sure you want to delete this post?"
+        title="Are you sure you want to delete this post? This action cannot be undone."
         confirmText="Yes, I'm sure"
         cancelText="No, Cancel"
       />

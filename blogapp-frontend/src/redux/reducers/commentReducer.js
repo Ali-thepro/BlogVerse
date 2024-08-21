@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createCommentInDB, getPostCommentsInDB, likeCommentInDB, editCommentInDB, deleteCommentInDB } from '../../services/comment';
+import { createCommentInDB,  getCommentsInDB, getPostCommentsInDB, likeCommentInDB, editCommentInDB, deleteCommentInDB } from '../../services/comment';
 import { setNotification } from './notificationReducer';
 
 const initialState = {
@@ -92,6 +92,26 @@ export const createComment = (comment) => {
   };
 }
 
+
+export const getComments = (query = '', wantIndex = false) => { 
+  return async (dispatch) => {
+    dispatch(initial());
+    try {
+      const response = await getCommentsInDB(query);
+      if (wantIndex) {
+        dispatch(addAllComments(response));
+      } else {
+        dispatch(setAllComments(response));
+      }
+      return response.comments
+    } catch (error) {
+      console.log(error)
+      const errorMessage = error?.response?.data?.error || 'An error occurred';
+      dispatch(setError(errorMessage));
+    }
+  };
+}
+
 export const getPostComments = (postId, query = '', wantIndex = false) => {
   return async (dispatch) => {
     dispatch(initial());
@@ -101,11 +121,7 @@ export const getPostComments = (postId, query = '', wantIndex = false) => {
         dispatch(addComments(response.comments));
         return response.comments
       } else {
-        const payload = {
-          comments: response.comments,
-          totalComments: response.total,
-        }
-        dispatch(setComments(payload));
+        dispatch(setComments(response));
       }
       return response.comments
     } catch (error) {

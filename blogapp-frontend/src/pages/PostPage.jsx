@@ -16,7 +16,6 @@ const PostPage = () => {
   const { postSlug } = useParams();
   const [post, setPost] = useState(null);
 
-
   useEffect(() => {
     const fetchData = async () => {
       const fetchedPosts = await dispatch(getPosts(`?slug=${postSlug}`));
@@ -68,7 +67,7 @@ const PostPage = () => {
             className='p-3 max-w-2xl mx-auto w-full post-content'
             dangerouslySetInnerHTML={{ __html: post && post.content }}
           ></div>
-          <CommentSection post={post.id} />
+          <CommentSection post={post} />
           <div className='flex flex-col justify-center items-center mb-5'>
             <h1 className='text-xl mt-5'>Recent articles</h1>
             <div className='flex flex-wrap gap-5 mt-5 justify-center'>

@@ -6,6 +6,11 @@ export const createCommentInDB = async (comment) => {
   return response.data;
 }
 
+export const getCommentsInDB = async (query) => { 
+  const response = await axios.get(`${BASE_URL}/getcomments${query}`);
+  return response.data;
+}
+
 export const getPostCommentsInDB = async (postId, query) => { 
   const response = await axios.get(`${BASE_URL}/getpostcomments/${postId}${query}`);
   return response.data;

@@ -43,15 +43,10 @@ export const getUsers = (query = '', wantIndex = false) => {
     dispatch(initial())
     try {
       const response = await getUsersFromDB(query)
-      const payload = {
-        users: response.users,
-        totalUsers: response.totalUsers,
-        lastMonthUsers: response.lastMonthUsers
-      }
       if (wantIndex) {
-        dispatch(addUsers(payload))
+        dispatch(addUsers(response))
       } else {
-        dispatch(setUsers(payload))
+        dispatch(setUsers(response))
       }
 
       return response.users

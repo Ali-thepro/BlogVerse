@@ -13,16 +13,13 @@ const CommentSection = ({ post }) => {
   const user = useSelector(state => state.auth.user);
   const [comment, setComment] = useState('');
   const [showMore, setShowMore] = useState(true);
-
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (comment.length === 0 || comment.length > 200) {
       return;
     }
-    
-    await dispatch(createComment({ comment, post: post, user: user.id }));
-    const fetchedComments = await dispatch(getPostComments(post, '?limit=-1'));
+    await dispatch(createComment({ comment, post: post.id, user: user.id }));
+    const fetchedComments = await dispatch(getPostComments(post.id, '?limit=-1'));
     if (fetchedComments.length < 5) {
       setShowMore(false);
     } else {
@@ -33,7 +30,7 @@ const CommentSection = ({ post }) => {
 
   useEffect(() => {
     const fetchComments = async () => {
-      const fetchedComments = await dispatch(getPostComments(post, '?limit=-1'));
+      const fetchedComments = await dispatch(getPostComments(post.id, '?limit=-1'));
       if (fetchedComments.length < 5) {
         setShowMore(false);
       } else {
@@ -45,14 +42,14 @@ const CommentSection = ({ post }) => {
 
   const handleShowMore = async () => {
     const startIndex = comments.length;
-    const fetchedComments = await dispatch(getPostComments(post, `?startIndex=${startIndex}`, true));
+    const fetchedComments = await dispatch(getPostComments(post.id, `?startIndex=${startIndex}`, true));
     if (fetchedComments.length < 5) {
       setShowMore(false);
     }
   }
 
   const handleDeleteComment = () => {
-    dispatch(getPostComments(post, '?limit=-1'));
+    dispatch(getPostComments(post.id, '?limit=-1'));
   }
 
   return (
@@ -118,6 +115,7 @@ const CommentSection = ({ post }) => {
                   key={comment.id}
                   comment={comment}
                   handleDeleteComment={handleDeleteComment}
+                  post={post}
                 />
               )
             })}

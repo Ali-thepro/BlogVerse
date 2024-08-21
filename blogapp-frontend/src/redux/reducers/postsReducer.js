@@ -75,15 +75,10 @@ export const getPosts = (query = '', wantIndex = false) => {
     dispatch(initial());
     try {
       const response = await getPostsFromDB(query);
-      const payload = {
-        posts: response.posts,
-        totalPosts: response.totalPosts,
-        lastMonthPosts: response.lastMonthPosts
-      };
       if (wantIndex) {
-        dispatch(addPosts(payload));
+        dispatch(addPosts(response));
       } else {
-        dispatch(setPosts(payload));
+        dispatch(setPosts(response));
       }
       return response.posts;
     } catch (error) {

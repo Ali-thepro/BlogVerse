@@ -1,5 +1,6 @@
 const Comment = require('../models/comment');
-const { createError } = require('../utils/error');
+const Post = require('../models/post');
+const createError = require('../utils/error');
 
 const createComment = async (request, response, next) => {
   try {
@@ -26,17 +27,17 @@ const getPostComments = async (request, response, next) => {
   try {
     const startIndex = parseInt(request.query.startIndex) || 0;
     let limit = parseInt(request.query.limit) || 9;
-    let total
+    let totalComments
     if (limit === -1) {
-      total = await Comment.countDocuments({ postId: request.params.id });
+      totalComments = await Comment.countDocuments({ post: request.params.postId });
     } 
-      const comments = await Comment.find({ postId: request.params.id })
+      const comments = await Comment.find({ post: request.params.postId })
       .sort({ createdAt: -1 })
       .skip(startIndex)
       .limit(5)
-      .populate('user', { username: 1, profilePicture: 1 });
+      .populate('user', { username: 1, profilePicture: 1 })
     
-    response.status(200).json({ comments, total });
+    response.status(200).json({ comments, totalComments });
   } catch (error) {
     next(error);
   }
@@ -85,8 +86,9 @@ const editComment = async (request, response, next) => {
     if (!comment) {
       return next(createError('Comment not found', 404));
     }
+    const post = await Post.findById(comment.post);
 
-    if (!request.user.isAdmin && comment.user !== request.user.id) {
+    if (!request.user.isAdmin && (comment.user !== request.user.id) && (request.user.id !== post.user)) {
       return next(createError('You are not allowed to edit this comment', 403));
     }
 
@@ -110,13 +112,46 @@ const deleteComment = async (request, response, next) => {
     if (!comment) {
       return next(createError('Comment not found', 404));
     }
+    const post = await Post.findById(comment.post);
 
-    if (!request.user.isAdmin && comment.user !== request.user.id) {
+    if (!request.user.isAdmin && comment.user.toString() !== request.user.id && request.user.id !== post.user.toString()) {
       return next(createError('You are not allowed to delete this comment', 403));
     }
 
     await Comment.findByIdAndDelete(commentId);
     response.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+}
+
+const getComments = async (request, response, next) => {
+  try {
+    const filter = request.query.userId ? { user: request.query.userId } : {};
+    const startIndex = parseInt(request.query.startIndex) || 0;
+    const limit = parseInt(request.query.limit) || 9;
+    const sortBy = request.query.order === 'asc' ? 1 : -1;
+
+    const comments = await Comment.find(filter)
+      .sort({ updatedAt: sortBy })
+      .skip(startIndex)
+      .limit(limit)
+      .populate('user', { username: 1 })
+      .populate('post', { title: 1 , slug: 1 });
+
+    const totalComments = await Comment.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    const lastMonthComments = await Comment.countDocuments({
+      createdAt: { $gte: oneMonthAgo }
+    });
+    
+    response.status(200).json({ comments, totalComments, lastMonthComments });
   } catch (error) {
     next(error);
   }
@@ -128,4 +163,5 @@ module.exports = {
   likeComment,
   editComment,
   deleteComment,
+  getComments
 }

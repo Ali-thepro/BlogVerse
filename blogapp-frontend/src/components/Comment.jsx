@@ -7,7 +7,7 @@ import { Button, Textarea } from 'flowbite-react';
 import { FaThumbsUp } from 'react-icons/fa';
 import ReusableModal from './ReusableModal';
 
-const Comment = ({ comment, handleDeleteComment }) => {
+const Comment = ({ comment, handleDeleteComment, post }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.user);
@@ -58,7 +58,7 @@ const Comment = ({ comment, handleDeleteComment }) => {
             {user ? `@${comment.user.username}` : 'anonymous user'}
           </span>
           <span className='text-gray-500 text-xs'>
-            {moment(comment.createdAt).fromNow()}
+            {moment(comment.updatedAt).fromNow()}
           </span>
         </div>
         {isEditing ? (
@@ -108,7 +108,8 @@ const Comment = ({ comment, handleDeleteComment }) => {
                 {comment.numberOfLikes > 0 &&
                   comment.numberOfLikes + ' ' + (comment.numberOfLikes === 1 ? 'like' : 'likes')}
               </p>
-              {user && (user.id === comment.user || user.isAdmin) && (
+
+              {user && (user.id === comment.user.id || user.isAdmin || user.id === post.user.id) && (
                 <>
                   <button
                     type='button'

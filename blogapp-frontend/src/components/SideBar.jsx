@@ -1,5 +1,5 @@
 import { Sidebar as SidebarDiv } from 'flowbite-react'
-import { HiArrowSmRight, HiDocumentText, HiUser, HiOutlineUserGroup } from 'react-icons/hi'
+import { HiArrowSmRight, HiDocumentText, HiUser, HiOutlineUserGroup, HiAnnotation } from 'react-icons/hi'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -46,16 +46,25 @@ const Sidebar = () => {
             Posts
           </SidebarDiv.Item>
           {user.isAdmin && (
-            <SidebarDiv.Item
-              active={tab === 'users'}
-              icon={HiOutlineUserGroup}
-              labelColor='dark'
-              as={Link}
-              to={'/dashboard?tab=users'}
-            >
-              Users
-            </SidebarDiv.Item>
+              <SidebarDiv.Item
+                active={tab === 'users'}
+                icon={HiOutlineUserGroup}
+                labelColor='dark'
+                as={Link}
+                to={'/dashboard?tab=users'}
+              >
+                Users
+              </SidebarDiv.Item>
           )}
+          <SidebarDiv.Item
+            active={tab === 'comments'}
+            icon={HiAnnotation}
+            labelColor='dark'
+            as={Link}
+            to={'/dashboard?tab=comments'}
+          >
+            Comments
+          </SidebarDiv.Item>
           <SidebarDiv.Item 
             icon={HiArrowSmRight}
             className='cursor-pointer'

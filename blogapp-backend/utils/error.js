@@ -5,4 +5,4 @@ const createError = (message, statusCode) => {
   return error;
 };
 
-module.exports = createError
+module.exports = createError;
