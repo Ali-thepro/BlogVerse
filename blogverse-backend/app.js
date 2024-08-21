@@ -24,7 +24,6 @@ mongoose.connect(config.MONGODB_URI)
     logger.error('error connecting to MongoDB:', error.message)
   })
 
-const __dirname = path.resolve()
 
 morgan.token('body', (req) => JSON.stringify(req.body))
 
