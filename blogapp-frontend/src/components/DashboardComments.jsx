@@ -6,7 +6,7 @@ import ReusableModal from "./ReusableModal";
 import { getComments, deleteComment } from "../redux/reducers/commentsReducer";
 import { Link } from "react-router-dom";
 
-const DashComments = () => {
+const DashboardComments = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const comments = useSelector((state) => state.comments.comments);
@@ -98,7 +98,7 @@ const DashComments = () => {
                       <Table.Cell>
                         <Link
                           className="text-blue-500 hover:underline"
-                          to={`/user/${comment.user.id}`}
+                          to={`/search?userId=${comment.user.id}`}
                         >
                           {comment.user.username}
                         </Link>
@@ -149,4 +149,4 @@ const DashComments = () => {
   );
 };
 
-export default DashComments;
+export default DashboardComments;

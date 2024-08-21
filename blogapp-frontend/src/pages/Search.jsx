@@ -18,6 +18,7 @@ const Search = () => {
     sort: 'desc',
     category: '',
     user: '',
+    sortField: 'updatedAt',
   });
   const { posts, loading } = useSelector((state) => state.posts);
   const users = useSelector((state) => state.users.users);
@@ -31,12 +32,14 @@ const Search = () => {
     const sort = urlParams.get('sort');
     const category = urlParams.get('category');
     const user = urlParams.get('userId');
-    if (searchTerm || sort || category || user) {
+    const sortField = urlParams.get('sortField');
+    if (searchTerm || sort || category || user || sortField) {
       setSearchData({
         searchTerm: searchTerm || '',
         sort: sort || 'desc',
-        category: category,
+        category: category || '',
         userId: user || '',
+        sortField: sortField || 'updatedAt',
       });
     }
     const fetchPosts = async () => {
@@ -131,6 +134,14 @@ const Search = () => {
               {users.map((user) => (
                 <option key={user.id} value={user.id}>{user.username}</option>
               ))}
+            </Select>
+          </div>
+          <div className="flex items-center gap-2">
+            <label className='font-semibold'>Sort Field:</label>
+            <Select onChange={handleChange} value={searchData.sortField} name='sortField'>
+              <option value='updatedAt'>Updated Date</option>
+              <option value='createdAt'>Created Date</option>
+              <option value='likes'>Likes</option>
             </Select>
           </div>
           <Button

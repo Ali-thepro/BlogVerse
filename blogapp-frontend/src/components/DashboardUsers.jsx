@@ -81,7 +81,7 @@ const DashboardUsers = () => {
                     <Table.Cell>
                       <Link
                         className="font-medium text-blue-500 hover:underline"
-                        to={`/user/${user.id}`}
+                        to={`/search?userId=${user.id}`}
                       >
                         {user.username}
                       </Link>

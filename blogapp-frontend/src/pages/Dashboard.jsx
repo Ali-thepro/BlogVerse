@@ -8,6 +8,7 @@ import DashboardPosts from '../components/DashboardPosts';
 import DashboardUsers from '../components/DashboardUsers';
 import DashboardComments from '../components/DashboardComments';
 import DashboardOverview from '../components/DashboardOverview';
+import DashboardLikes from '../components/DashboardLikes';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Dashboard = () => {
       {tab === 'posts' && <DashboardPosts />}
       {tab === 'users' && <DashboardUsers />}
       {tab === 'comments' && <DashboardComments />}
+      {tab === 'likes' && <DashboardLikes />}
     </div>
   )
 }

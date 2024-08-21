@@ -100,10 +100,7 @@ const Comment = ({ comment, handleDeleteComment, post }) => {
                 <FaThumbsUp className="text-sm" />
               </button>
               <p className="text-gray-400">
-                {comment.numberOfLikes > 0 &&
-                  comment.numberOfLikes +
-                    " " +
-                    (comment.numberOfLikes === 1 ? "like" : "likes")}
+                {comment.numberOfLikes > 0 && comment.numberOfLikes + " " + (comment.numberOfLikes === 1 ? "like" : "likes")}
               </p>
 
               {user &&

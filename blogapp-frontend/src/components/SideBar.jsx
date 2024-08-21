@@ -1,5 +1,5 @@
 import { Sidebar as SidebarDiv } from 'flowbite-react'
-import { HiArrowSmRight, HiDocumentText, HiUser, HiOutlineUserGroup, HiAnnotation, HiChartPie } from 'react-icons/hi'
+import { HiArrowSmRight, HiDocumentText, HiUser, HiOutlineUserGroup, HiAnnotation, HiChartPie, HiHeart } from 'react-icons/hi'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -75,6 +75,15 @@ const Sidebar = () => {
             to={'/dashboard?tab=comments'}
           >
             Comments
+          </SidebarDiv.Item>
+          <SidebarDiv.Item
+            active={tab === 'likes'}
+            icon={HiHeart} 
+            labelColor='dark'
+            as={Link}
+            to={'/dashboard?tab=likes'}
+          >
+            Liked posts
           </SidebarDiv.Item>
           <SidebarDiv.Item 
             icon={HiArrowSmRight}

@@ -132,7 +132,14 @@ const DashboardOverview = () => {
                             className='w-10 h-10 rounded-full bg-gray-500'
                           />
                         </Table.Cell>
-                        <Table.Cell>{user.username}</Table.Cell>
+                        <Table.Cell>
+                        <Link
+                          to={`/search?userId=${user.id}`}
+                          className='text-blue-500 hover:underline'
+                        >
+                          {user.username}
+                        </Link>
+                        </Table.Cell>
                       </Table.Row>
                   ))}
                 </Table.Body>
@@ -181,13 +188,25 @@ const DashboardOverview = () => {
                   posts.map((post) => (
                       <Table.Row key={post.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                         <Table.Cell>
-                          <img
-                            src={post.image}
-                            alt='user'
-                            className='w-14 h-10 rounded-md bg-gray-500'
-                          />
+                          <Link
+                            to={`/post/${post.slug}`}
+                            className='text-blue-500 hover:underline'
+                          >
+                            <img
+                              src={post.image}
+                              alt='user'
+                              className='w-14 h-10 rounded-md bg-gray-500'
+                            />
+                          </Link>
                         </Table.Cell>
-                        <Table.Cell className='w-96'>{post.title}</Table.Cell>
+                        <Table.Cell className='w-96'>
+                        <Link
+                          to={`/post/${post.slug}`}
+                          className='text-blue-500 hover:underline'
+                        >
+                          {post.slug}
+                        </Link>
+                        </Table.Cell>
                         <Table.Cell className='w-5'>{post.category}</Table.Cell>
                       </Table.Row>
                   ))}

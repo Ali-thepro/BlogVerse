@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPostInDB, getPostsFromDB, deletePostFromDB, editPostInDB } from "../../services/post";
+import { createPostInDB, getPostsFromDB, deletePostFromDB, editPostInDB, likePostInDB } from "../../services/post";
 import { setNotification } from "./notificationReducer";
 import { toast } from "react-toastify";
 
@@ -118,6 +118,21 @@ export const editPost = (postId, post) => {
       dispatch(setNotification(errorMessage, "failure"));
       dispatch(setError());
       return { success: false, slug: null };
+    }
+  };
+}
+
+export const likePost = (postId) => { 
+  return async (dispatch) => {
+    dispatch(initial());
+    try {
+      const likedPost = await likePostInDB(postId);
+      dispatch(updatePost(likedPost));
+    } catch (error) {
+      console.log(error);
+      const errorMessage = error.response?.data?.error || "An error occurred";
+      dispatch(setNotification(errorMessage, "failure"));
+      dispatch(setError());
     }
   };
 }

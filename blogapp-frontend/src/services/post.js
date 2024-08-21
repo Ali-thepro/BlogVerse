@@ -25,3 +25,8 @@ export const getCategories = async () => {
   const response = await axios.get(`${BASE_URL}/categories`);
   return response.data;
 }
+
+export const likePostInDB = async (postId) => { 
+  const response = await axios.put(`${BASE_URL}/likepost/${postId}`);
+  return response.data;
+}

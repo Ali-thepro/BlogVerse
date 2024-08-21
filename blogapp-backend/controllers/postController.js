@@ -36,18 +36,21 @@ const getPosts = async (request, response) => {
         { content: { $regex: request.query.searchTerm, $options: 'i' } },
       ]
     } : {}),
+    ...(request.query.likedBy ? { likes: { $in: [request.query.likedBy] } } : {})
   }
 
   const startIndex = parseInt(request.query.startIndex) || 0
   const limit = parseInt(request.query.limit) || 9
   const sortBy = request.query.sort === 'asc' ? 1 : -1
+  const sortField = request.query.sortField === 'likes' ? 'numberOfLikes'
+    : request.query.sortField === 'createdAt' ? 'createdAt' : 'updatedAt'
+
   const posts = await Post.find(filter)
-    .sort({ updatedAt: sortBy })
+    .sort({ [sortField]: sortBy })
     .skip(startIndex)
     .limit(limit)
     .populate('user', { username: 1, email: 1, profilePicture: 1 })
   
-  // const postsByFilter = await Post.countDocuments(filter)
   const totalPosts = await Post.countDocuments()
 
   const now = new Date()
@@ -69,7 +72,39 @@ const getPosts = async (request, response) => {
   })
 }
 
+const likePost = async (request, response, next) => {
+  try {
+    const { postId } = request.params;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return next(createError('Post not found', 404));
+    }
 
+    const user = request.user.id;
+    const userIndex = post.likes.indexOf(user);
+    if (userIndex === -1) {
+      post.numberOfLikes += 1;
+      post.likes.push(user);
+    } else {
+      post.numberOfLikes -= 1;
+      post.likes.splice(userIndex, 1);
+    }
+
+    const savedPost = await Post.updateOne(
+      { _id: postId },
+      {
+        numberOfLikes: post.numberOfLikes,
+        likes: post.likes
+      },
+      { timestamps: false }
+    );
+    
+
+    response.status(200).json(savedPost);
+  } catch (error) {
+    next(error);
+  }
+}
 
 const deletePost = async (request, response, next) => { 
   const { postId } = request.params
@@ -99,11 +134,14 @@ const editPost = async (request, response, next) => {
   if (!post) {
     return next(createError('Post not found', 404))
   }
-  const slug = request.body.title
-  .split(' ')
-  .join('-')
-  .toLowerCase()
-  .replace(/[^a-zA-Z0-9-]/g, '')
+  let slug
+  if (request.body.title) { 
+    slug = request.body.title
+    .split(' ')
+    .join('-')
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9-]/g, '')
+  }
 
   const update = {
     $set: {
@@ -145,7 +183,8 @@ module.exports = {
   getPosts,
   deletePost,
   editPost,
-  distinctCategories
+  distinctCategories,
+  likePost
 };
 
 // not very safe as not checking if user is the owner of the post
