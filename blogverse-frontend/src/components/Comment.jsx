@@ -17,7 +17,8 @@ const Comment = ({ comment, handleDeleteComment, post }) => {
 
   const handleLike = () => {
     if (!user) {
-      return navigate("/signin");
+      navigate("/signin");
+      return
     }
     dispatch(likeComment(comment.id));
   };
@@ -30,7 +31,8 @@ const Comment = ({ comment, handleDeleteComment, post }) => {
   const handleSave = () => {
     setIsEditing(false);
     if (!user) {
-      return navigate("/signin");
+      navigate("/signin");
+      return
     }
     dispatch(editComment(comment.id, { content: editedContent }));
   };

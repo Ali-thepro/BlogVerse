@@ -90,7 +90,7 @@ const likePost = async (request, response, next) => {
       post.likes.splice(userIndex, 1);
     }
 
-    const savedPost = await post.findByIdAndUpdate(
+    const savedPost = await Post.findByIdAndUpdate(
       postId,
       {
         likes: post.likes,

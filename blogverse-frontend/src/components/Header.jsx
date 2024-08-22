@@ -32,6 +32,7 @@ const Header = () => {
   const handleSignOut = () => {
     dispatch(signOutUser())
     navigate('/')
+    return
   }
 
   const handleSubmit = (event) => {

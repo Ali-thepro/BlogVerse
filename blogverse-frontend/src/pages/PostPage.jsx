@@ -1,6 +1,6 @@
 import { Button, Spinner} from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts, likePost } from '../redux/reducers/postsReducer';
 import Notification from '../components/Notification';
@@ -11,6 +11,7 @@ import { FaHeart } from 'react-icons/fa';
 
 const PostPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(state => state.auth.user);
   const posts = useSelector(state => state.posts.posts);
   const loading = useSelector(state => state.posts.loading);
@@ -36,6 +37,10 @@ const PostPage = () => {
   }
 
   const handleLike = async () => {
+    if (!user) {
+      navigate('/signin');
+      return;
+    }
     if (post) {
       await dispatch(likePost(post.id));
       const fetchedPosts = await dispatch(getPosts(`?slug=${postSlug}`));
