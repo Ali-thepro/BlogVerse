@@ -14,7 +14,7 @@ const CategoryDropdown = () => {
 
 
   const handleCategoryChange = (e) => {
-    const val = e.target.value;
+    const val = e.target.value.trim();
     const value = val.charAt(0).toUpperCase() + val.slice(1);
     dispatch(setCategoryInput(value));
     const filtered = categories.filter((category) =>

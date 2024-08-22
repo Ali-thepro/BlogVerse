@@ -53,9 +53,12 @@ const PostPage = () => {
       <Notification />
       {post && (
         <>
-          <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
-            {post.title}
-          </h1>
+          <div className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
+            <h1>{post.title}</h1>
+            <Link to={`/search?userId=${post.user.id}`} className="text-blue-500 hover:underline text-sm">
+              By {post.user.username}
+            </Link>
+          </div>
           <div className="flex justify-center items-center gap-5 mt-5">
             <Link
               to={`/search?category=${post.category}`}
@@ -83,9 +86,8 @@ const PostPage = () => {
             className='mt-10 p-3 max-h-[600px] w-full object-cover'
           >
           </img>
-          <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
+          <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-sm">
             <span> Updated on {new Date(post.updatedAt).toLocaleDateString()}</span>
-
             <span className='italic'>
               {(post.content.length / 1000).toFixed(1)} min read
             </span>
