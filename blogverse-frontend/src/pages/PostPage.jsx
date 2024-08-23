@@ -55,9 +55,13 @@ const PostPage = () => {
         <>
           <div className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
             <h1>{post.title}</h1>
-            <Link to={`/search?userId=${post.user.id}`} className="text-blue-500 hover:underline text-sm">
-              By {post.user.username}
-            </Link>
+            {post.user ? (
+              <Link to={`/search?userId=${post.user.id}`} className="text-blue-500 hover:underline text-sm">
+                By {post.user.username}
+              </Link>
+            ) : (
+              <p className="text-gray-400 text-sm">Anonymous author</p>
+            )}
           </div>
           <div className="flex justify-center items-center gap-5 mt-5">
             <Link
